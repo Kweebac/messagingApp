@@ -1,0 +1,7 @@
+.index {
+  display: grid;
+  place-content: center;
+  width: calc(100vw - 14rem);
+  height: 100vh;
+  color: lightgray;
+}

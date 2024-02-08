@@ -1,0 +1,127 @@
+aside {
+  background-color: #2b2d31;
+  width: 14rem;
+  height: 100vh;
+
+  display: grid;
+  align-content: space-between;
+}
+aside h1 {
+  margin: 0;
+  margin-bottom: 0.2rem;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+}
+aside h1 > span {
+  font-family: gg sans Medium Regular;
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: lightgray;
+}
+aside button {
+  background-color: #248046;
+  color: white;
+  font-size: 0.65rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+aside > section {
+  padding: 0.5rem;
+
+  display: grid;
+  gap: 1.5rem;
+}
+aside .chats {
+  display: grid;
+  list-style: none;
+}
+
+aside .chat {
+  padding: 0.3rem;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+}
+aside .chat:hover:not(.settings > li) {
+  background-color: #36373d;
+  border-radius: 9px;
+  cursor: pointer;
+}
+aside .chat > .img {
+  display: grid;
+  position: relative;
+}
+aside .chat > img,
+aside .chat > .img > img {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+aside .chat .img > div {
+  position: absolute;
+  right: -0.2rem;
+  bottom: -0.2rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  border: 3px solid #2b2d31;
+}
+aside .chat .img > div.online {
+  background-color: #23a359;
+}
+aside .chat .img > div.offline {
+  background-color: #80848e;
+}
+aside .chat .img > div.dnd {
+  background-color: #f13f43;
+}
+
+aside .chat > .info {
+  color: lightgray;
+}
+aside .chat > .info > div:first-child {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 9.5rem;
+}
+aside .chat > .info > div:nth-child(2) {
+  font-size: 0.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 9.5rem;
+}
+
+aside > .settings {
+  background-color: #232428;
+}
+aside .settings .info,
+aside .settings .info > div:first-child,
+aside .settings .info > div:nth-child(2) {
+  width: 7.8rem;
+}
+aside > .settings > li > button {
+  background-color: inherit;
+  padding: 0.15rem;
+
+  display: grid;
+}
+aside > .settings > li > button:hover {
+  background-color: #3d3e45;
+}
+aside > .settings > li svg {
+  width: 1.3rem;
+  fill: lightgray;
+  cursor: pointer;
+}

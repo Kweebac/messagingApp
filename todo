@@ -1,0 +1,24 @@
+# Features
+
+- Sending messages to another user
+- Customizing a user profile
+  - Username
+  - Avatar
+  - About me
+
+# Extra credit
+
+- Allow sending images in chat
+- Add a friends list that users can add other users to and see when someone is online
+  (alternative: “Add a users list to show which users are currently online”)
+- Allow users to create and send messages in group chats
+
+# Limitations
+
+- You may have realized that a REST API backend cannot handle real time updates. It is “request-response”, so the server can only respond to a request. If a user sends a message to another user, a REST API cannot automatically notify the recipient as the recipient will not have requested that data.
+
+# To-do
+
+- Figure out saving avatars to database and importing them, and use default avatars when creating a User or Chat
+- Name saved images by username
+- Make img alt text <username>'s profile picture

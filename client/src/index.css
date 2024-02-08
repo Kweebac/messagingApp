@@ -1,1 +1,45 @@
- 
+@font-face {
+  font-family: "gg sans Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("gg sans Bold"), url("./assets/fonts/gg sans Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "gg sans Normal Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("gg sans Normal Regular"),
+    url("./assets/fonts/gg sans Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "gg sans Medium Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("gg sans Medium Regular"),
+    url("./assets/fonts/gg sans Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "gg sans SemiBold Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("gg sans SemiBold Regular"),
+    url("./assets/fonts/gg sans Semibold.woff") format("woff");
+}
+
+#root {
+  font-family: gg sans Normal Regular;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: left;
+
+  background-color: #313338;
+}
+
+body,
+ul {
+  margin: 0;
+  padding: 0;
+}

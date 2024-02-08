@@ -1,0 +1,64 @@
+.auth {
+  width: 100vw;
+  height: 100vh;
+  background-color: #2b2d31;
+
+  display: grid;
+  grid-auto-flow: column;
+  place-content: center;
+}
+.auth > main {
+  background-color: #232428;
+  padding: 3rem;
+  border-radius: 12px;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
+  place-content: center;
+}
+.auth .register {
+  padding-right: 3.5rem;
+  border-right: 4px solid #2b2d31;
+}
+.auth .login {
+  padding-left: 3.5rem;
+}
+
+.auth h1 {
+  margin: 0;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: white;
+  justify-self: center;
+}
+.auth label {
+  color: lightgray;
+}
+.auth input {
+  background-color: #2b2d31;
+  border: none;
+  border-radius: 2px;
+  color: lightgray;
+  margin-left: 0.3rem;
+}
+
+.auth form {
+  display: grid;
+}
+.auth button {
+  background-color: #248046;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1.15rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  justify-self: center;
+  margin-top: 1.5rem;
+}
+
+.auth .errors {
+  margin-top: 1.5rem;
+  color: rgb(255, 98, 98);
+}
