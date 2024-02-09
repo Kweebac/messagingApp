@@ -13,7 +13,7 @@ export default function Auth() {
   async function handleRegister(e) {
     e.preventDefault();
 
-    let res = await fetch("http://localhost:3000/api/register", {
+    let res = await fetch("http://localhost:3000/api/auth/register", {
       method: "POST",
       body: new URLSearchParams(new FormData(e.target)),
     });
@@ -30,7 +30,7 @@ export default function Auth() {
   async function handleLogin(e) {
     e.preventDefault();
 
-    let res = await fetch("http://localhost:3000/api/login", {
+    let res = await fetch("http://localhost:3000/api/auth/login", {
       method: "POST",
       body: new URLSearchParams(new FormData(e.target)),
       credentials: "include",
@@ -47,20 +47,31 @@ export default function Auth() {
         <section className="register">
           <form onSubmit={(e) => handleRegister(e)}>
             <h1>Register</h1>
-            <div>
-              <label>
-                Email: <input type="email" name="email" required />
-              </label>
-            </div>
-            <div>
-              <label>
-                Password: <input type="password" name="password" required minLength={8} />
-              </label>
-            </div>
-            <div>
-              <label>
-                Username: <input type="text" name="username" required minLength={3} />
-              </label>
+            <div className="inputs">
+              <div>
+                <label className="title">
+                  EMAIL
+                  <div>
+                    <input type="email" name="email" required />
+                  </div>
+                </label>
+              </div>
+              <div>
+                <label className="title">
+                  PASSWORD
+                  <div>
+                    <input type="password" name="password" required minLength={8} />
+                  </div>
+                </label>
+              </div>
+              <div>
+                <label className="title">
+                  USERNAME
+                  <div>
+                    <input type="text" name="username" required minLength={3} />
+                  </div>
+                </label>
+              </div>
             </div>
             {registerErrors && (
               <ul className="errors">
@@ -75,15 +86,23 @@ export default function Auth() {
         <section className="login">
           <form onSubmit={(e) => handleLogin(e)}>
             <h1>Login</h1>
-            <div>
-              <label>
-                Email: <input type="email" name="email" required ref={loginEmailInputRef} />
-              </label>
-            </div>
-            <div>
-              <label>
-                Password: <input type="password" name="password" required minLength={8} />
-              </label>
+            <div className="inputs">
+              <div>
+                <label className="title">
+                  EMAIL
+                  <div>
+                    <input type="email" name="email" required ref={loginEmailInputRef} />
+                  </div>
+                </label>
+              </div>
+              <div>
+                <label className="title">
+                  PASSWORD
+                  <div>
+                    <input type="password" name="password" required minLength={8} />
+                  </div>
+                </label>
+              </div>
             </div>
             {loginError && (
               <ul className="errors">

@@ -1,0 +1,35 @@
+.settings {
+  margin-top: 3rem;
+  width: 100vw;
+
+  display: grid;
+  justify-content: center;
+}
+.settings > main {
+  padding-right: 3rem;
+  position: relative;
+}
+.settings h1 {
+  color: white;
+  font-size: 1.5rem;
+}
+.settings .close {
+  position: absolute;
+  top: 1.25rem;
+  right: 0;
+
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+}
+.settings svg {
+  border: 1px solid lightgray;
+  padding: 0.2rem;
+  border-radius: 50%;
+  width: 1.25rem;
+  fill: lightgray;
+  cursor: pointer;
+}
+.settings svg:hover {
+  background-color: #3a3c42;
+}

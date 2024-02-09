@@ -16,12 +16,6 @@ aside h1 {
   align-items: center;
   gap: 0.5rem;
 }
-aside h1 > span {
-  font-family: gg sans Medium Regular;
-  font-size: 0.75rem;
-  font-weight: normal;
-  color: lightgray;
-}
 aside button {
   background-color: #248046;
   color: white;
@@ -51,7 +45,7 @@ aside .chat {
   align-items: center;
   gap: 0.5rem;
 }
-aside .chat:hover:not(.settings > li) {
+aside .chat:hover:not(.userInfo > li) {
   background-color: #36373d;
   border-radius: 9px;
   cursor: pointer;
@@ -103,24 +97,24 @@ aside .chat > .info > div:nth-child(2) {
   width: 9.5rem;
 }
 
-aside > .settings {
+aside > .userInfo {
   background-color: #232428;
 }
-aside .settings .info,
-aside .settings .info > div:first-child,
-aside .settings .info > div:nth-child(2) {
+aside .userInfo .info,
+aside .userInfo .info > div:first-child,
+aside .userInfo .info > div:nth-child(2) {
   width: 7.8rem;
 }
-aside > .settings > li > button {
+aside > .userInfo > li > button {
   background-color: inherit;
   padding: 0.15rem;
 
   display: grid;
 }
-aside > .settings > li > button:hover {
+aside > .userInfo > li > button:hover {
   background-color: #3d3e45;
 }
-aside > .settings > li svg {
+aside > .userInfo > li svg {
   width: 1.3rem;
   fill: lightgray;
   cursor: pointer;

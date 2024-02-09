@@ -6,7 +6,7 @@ export async function useIsAuthenticated() {
 
   useEffect(() => {
     (async () => {
-      let res = await fetch("http://localhost:3000/api/isAuthenticated", {
+      let res = await fetch("http://localhost:3000/api/auth/isAuthenticated", {
         credentials: "include",
       });
       res = await res.json();
@@ -21,7 +21,7 @@ export async function useIsNotAuthenticated() {
 
   useEffect(() => {
     (async () => {
-      let res = await fetch("http://localhost:3000/api/isAuthenticated", {
+      let res = await fetch("http://localhost:3000/api/auth/isAuthenticated", {
         credentials: "include",
       });
       res = await res.json();

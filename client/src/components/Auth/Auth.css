@@ -1,14 +1,14 @@
 .auth {
   width: 100vw;
   height: 100vh;
-  background-color: #2b2d31;
+  background-color: #232428;
 
   display: grid;
   grid-auto-flow: column;
   place-content: center;
 }
 .auth > main {
-  background-color: #232428;
+  background-color: #313338;
   padding: 3rem;
   border-radius: 12px;
 
@@ -31,16 +31,6 @@
   font-size: 2rem;
   color: white;
   justify-self: center;
-}
-.auth label {
-  color: lightgray;
-}
-.auth input {
-  background-color: #2b2d31;
-  border: none;
-  border-radius: 2px;
-  color: lightgray;
-  margin-left: 0.3rem;
 }
 
 .auth form {

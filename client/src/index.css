@@ -34,6 +34,7 @@
   display: grid;
   grid-auto-flow: column;
   justify-content: left;
+  height: 100vh;
 
   background-color: #313338;
 }
@@ -42,4 +43,66 @@ body,
 ul {
   margin: 0;
   padding: 0;
+}
+
+.inputs {
+  display: grid;
+  gap: 0.5rem;
+}
+input,
+textarea {
+  background-color: #1e1f22;
+  border: none;
+  border-radius: 2px;
+  color: lightgray;
+  outline: none;
+  padding: 0.4rem;
+  width: 15rem;
+}
+textarea {
+  resize: none;
+}
+label {
+  color: lightgray;
+
+  display: grid;
+  gap: 0.3rem;
+}
+.title {
+  font-family: gg sans Medium Regular;
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: lightgray;
+}
+hr {
+  width: 100%;
+  background-color: #3f4147;
+  height: 1px;
+  border: none;
+}
+button.delete {
+  background-color: #d14040;
+  border: none;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  width: max-content;
+  color: white;
+  cursor: pointer;
+}
+button.delete:hover {
+  transition: 0.5s ease;
+  background-color: #a12828;
+}
+button.save {
+  background-color: #359356;
+  border: none;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  width: max-content;
+  color: white;
+  cursor: pointer;
+}
+button.save:hover {
+  transition: 0.2s ease;
+  background-color: #1a6334;
 }

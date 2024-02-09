@@ -19,6 +19,8 @@
 
 # To-do
 
+- Implement default avatars for users and groups
+- Validate avatar file upload server-side with express-validator
 - Figure out saving avatars to database and importing them, and use default avatars when creating a User or Chat
 - Name saved images by username
 - Make img alt text <username>'s profile picture
