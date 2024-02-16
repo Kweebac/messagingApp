@@ -19,6 +19,10 @@
 
 # To-do
 
+- Add username errors, about me errors, login/register errors
+- Implement avatar changing
+
+- Show remaining character limit for about me section
 - Implement default avatars for users and groups
 - Validate avatar file upload server-side with express-validator
 - Figure out saving avatars to database and importing them, and use default avatars when creating a User or Chat

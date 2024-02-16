@@ -1,10 +1,13 @@
-import "./settings.css";
+import "./Settings.css";
 import { useIsAuthenticated } from "../../Utilities";
+import SettingsAccount from "./SettingsAccount";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import SettingsProfile from "./SettingsProfile";
 
-export default function Settings() {
-  const navigate = useNavigate();
+export default function Settings({ selected }) {
   useIsAuthenticated();
+  const navigate = useNavigate();
 
   async function handleLogout(e) {
     e.preventDefault();
@@ -20,75 +23,38 @@ export default function Settings() {
 
   return (
     <div className="settings">
-      <main>
-        <h1>My Account</h1>
-        <form>
-          <div className="inputs">
-            <div>
-              <label className="title">
-                EMAIL
-                <div>
-                  <input type="email" name="email" />
-                </div>
-              </label>
-            </div>
-            <div>
-              <label className="title">
-                PASSWORD
-                <div>
-                  <input type="password" name="password" />
-                </div>
-              </label>
-            </div>
-            <div>
-              <label className="title">
-                USERNAME
-                <div>
-                  <input type="text" name="username" />
-                </div>
-              </label>
-            </div>
-            <hr />
-            <div>
-              <label className="title">
-                AVATAR
-                <div>
-                  <input type="file" accept=".png, .jpg, .jpeg" name="avatar" />
-                </div>
-              </label>
-            </div>
-            <hr />
-            <div>
-              <label className="title">
-                ABOUT ME
-                <div>
-                  <textarea name="about" rows="10"></textarea>
-                </div>
-              </label>
-            </div>
-            <hr />
-            <button className="save">Save Changes</button>
-            <hr />
-            <button className="delete" onClick={(e) => handleLogout(e)}>
-              Logout
+      <aside>
+        <h1 className="title">USER SETTINGS</h1>
+        <ul>
+          <li>
+            <button
+              className={selected === "account" ? "selected" : undefined}
+              onClick={() => navigate("/settings/account")}
+            >
+              Account
             </button>
-            <button className="delete">Delete Account</button>
-          </div>
-        </form>
-        <div className="close">
-          <svg
-            onClick={() => navigate(-1)}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <title>window-close</title>
-            <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
-          </svg>
-          <div className="title">ESC</div>
-        </div>
-      </main>
+          </li>
+          <li>
+            <button
+              className={selected === "profile" ? "selected" : undefined}
+              onClick={() => navigate("/settings/profile")}
+            >
+              Profile
+            </button>
+          </li>
+          <hr />
+          <li>
+            <button onClick={(e) => handleLogout(e)}>Logout</button>
+          </li>
+        </ul>
+      </aside>
+
+      {selected === "account" && <SettingsAccount />}
+      {selected === "profile" && <SettingsProfile />}
     </div>
   );
 }
 
-// Delete account
+Settings.propTypes = {
+  selected: PropTypes.string,
+};

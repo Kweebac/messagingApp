@@ -1,4 +1,4 @@
-aside {
+.mainSidebar {
   background-color: #2b2d31;
   width: 14rem;
   height: 100vh;
@@ -6,7 +6,7 @@ aside {
   display: grid;
   align-content: space-between;
 }
-aside h1 {
+.mainSidebar h1 {
   margin: 0;
   margin-bottom: 0.2rem;
 
@@ -16,7 +16,7 @@ aside h1 {
   align-items: center;
   gap: 0.5rem;
 }
-aside button {
+.mainSidebar button {
   background-color: #248046;
   color: white;
   font-size: 0.65rem;
@@ -25,18 +25,18 @@ aside button {
   cursor: pointer;
 }
 
-aside > section {
+.mainSidebar > section {
   padding: 0.5rem;
 
   display: grid;
   gap: 1.5rem;
 }
-aside .chats {
+.mainSidebar .chats {
   display: grid;
   list-style: none;
 }
 
-aside .chat {
+.mainSidebar .chat {
   padding: 0.3rem;
 
   display: grid;
@@ -45,22 +45,22 @@ aside .chat {
   align-items: center;
   gap: 0.5rem;
 }
-aside .chat:hover:not(.userInfo > li) {
+.mainSidebar .chat:hover:not(.userInfo > li) {
   background-color: #36373d;
   border-radius: 9px;
   cursor: pointer;
 }
-aside .chat > .img {
+.mainSidebar .chat > .img {
   display: grid;
   position: relative;
 }
-aside .chat > img,
-aside .chat > .img > img {
+.mainSidebar .chat > img,
+.mainSidebar .chat > .img > img {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
 }
-aside .chat .img > div {
+.mainSidebar .chat .img > div {
   position: absolute;
   right: -0.2rem;
   bottom: -0.2rem;
@@ -69,27 +69,27 @@ aside .chat .img > div {
   border-radius: 50%;
   border: 3px solid #2b2d31;
 }
-aside .chat .img > div.online {
+.mainSidebar .chat .img > div.online {
   background-color: #23a359;
 }
-aside .chat .img > div.offline {
+.mainSidebar .chat .img > div.offline {
   background-color: #80848e;
 }
-aside .chat .img > div.dnd {
+.mainSidebar .chat .img > div.dnd {
   background-color: #f13f43;
 }
 
-aside .chat > .info {
+.mainSidebar .chat > .info {
   color: lightgray;
 }
-aside .chat > .info > div:first-child {
+.mainSidebar .chat > .info > div:first-child {
   font-size: 0.9rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 9.5rem;
 }
-aside .chat > .info > div:nth-child(2) {
+.mainSidebar .chat > .info > div:nth-child(2) {
   font-size: 0.6rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -97,24 +97,24 @@ aside .chat > .info > div:nth-child(2) {
   width: 9.5rem;
 }
 
-aside > .userInfo {
+.mainSidebar > .userInfo {
   background-color: #232428;
 }
-aside .userInfo .info,
-aside .userInfo .info > div:first-child,
-aside .userInfo .info > div:nth-child(2) {
+.mainSidebar .userInfo .info,
+.mainSidebar .userInfo .info > div:first-child,
+.mainSidebar .userInfo .info > div:nth-child(2) {
   width: 7.8rem;
 }
-aside > .userInfo > li > button {
+.mainSidebar > .userInfo > li > button {
   background-color: inherit;
   padding: 0.15rem;
 
   display: grid;
 }
-aside > .userInfo > li > button:hover {
+.mainSidebar > .userInfo > li > button:hover {
   background-color: #3d3e45;
 }
-aside > .userInfo > li svg {
+.mainSidebar > .userInfo > li svg {
   width: 1.3rem;
   fill: lightgray;
   cursor: pointer;

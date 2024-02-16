@@ -32,6 +32,7 @@ passport.deserializeUser(async (id, done) => {
 function checkIsAuthenticated(req, res) {
   req.isAuthenticated() ? res.json(true) : res.json(false);
 }
+
 module.exports = {
   checkIsAuthenticated,
 };

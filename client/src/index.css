@@ -50,7 +50,8 @@ ul {
   gap: 0.5rem;
 }
 input,
-textarea {
+textarea,
+select {
   background-color: #1e1f22;
   border: none;
   border-radius: 2px;
@@ -69,7 +70,7 @@ label {
   gap: 0.3rem;
 }
 .title {
-  font-family: gg sans Medium Regular;
+  font-family: gg sans SemiBold Regular;
   font-size: 0.75rem;
   font-weight: normal;
   color: lightgray;

@@ -48,25 +48,43 @@ export default function Auth() {
           <form onSubmit={(e) => handleRegister(e)}>
             <h1>Register</h1>
             <div className="inputs">
-              <div>
-                <label className="title">
-                  EMAIL
+              <div className="required">
+                <label>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <title>Required</title>
+                      <path d="M10 3H14V14H10V3M10 21V17H14V21H10Z" />
+                    </svg>
+                    <span className="title">EMAIL</span>
+                  </div>
                   <div>
                     <input type="email" name="email" required />
                   </div>
                 </label>
               </div>
-              <div>
-                <label className="title">
-                  PASSWORD
+              <div className="required">
+                <label>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <title>Required</title>
+                      <path d="M10 3H14V14H10V3M10 21V17H14V21H10Z" />
+                    </svg>
+                    <span className="title">PASSWORD</span>
+                  </div>
                   <div>
                     <input type="password" name="password" required minLength={8} />
                   </div>
                 </label>
               </div>
-              <div>
-                <label className="title">
-                  USERNAME
+              <div className="required">
+                <label>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <title>Required</title>
+                      <path d="M10 3H14V14H10V3M10 21V17H14V21H10Z" />
+                    </svg>
+                    <span className="title">USERNAME</span>
+                  </div>
                   <div>
                     <input type="text" name="username" required minLength={3} />
                   </div>
@@ -87,17 +105,29 @@ export default function Auth() {
           <form onSubmit={(e) => handleLogin(e)}>
             <h1>Login</h1>
             <div className="inputs">
-              <div>
-                <label className="title">
-                  EMAIL
+              <div className="required">
+                <label>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <title>Required</title>
+                      <path d="M10 3H14V14H10V3M10 21V17H14V21H10Z" />
+                    </svg>
+                    <span className="title">EMAIL</span>
+                  </div>
                   <div>
                     <input type="email" name="email" required ref={loginEmailInputRef} />
                   </div>
                 </label>
               </div>
-              <div>
-                <label className="title">
-                  PASSWORD
+              <div className="required">
+                <label>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <title>Required</title>
+                      <path d="M10 3H14V14H10V3M10 21V17H14V21H10Z" />
+                    </svg>
+                    <span className="title">PASSWORD</span>
+                  </div>
                   <div>
                     <input type="password" name="password" required minLength={8} />
                   </div>

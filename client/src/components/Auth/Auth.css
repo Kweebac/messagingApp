@@ -52,3 +52,20 @@
   margin-top: 1.5rem;
   color: rgb(255, 98, 98);
 }
+
+.auth .required > label > div:first-child {
+  position: relative;
+
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: start;
+}
+
+.auth .required svg {
+  position: absolute;
+  left: -1rem;
+
+  width: 1rem;
+  fill: #d14040;
+}

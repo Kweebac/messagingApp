@@ -66,10 +66,15 @@ function loginFailure(req, res) {
   res.json(errors[errors.length - 1]);
 }
 
+async function getUser(req, res) {
+  res.json(req.user);
+}
+
 module.exports = {
   register,
   login,
   logout,
   loginSuccess,
   loginFailure,
+  getUser,
 };

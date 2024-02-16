@@ -30,3 +30,12 @@ export async function useIsNotAuthenticated() {
     })();
   });
 }
+
+export async function getUser() {
+  let user = await fetch("http://localhost:3000/api/auth/user", {
+    credentials: "include",
+  });
+  user = await user.json();
+
+  return user;
+}

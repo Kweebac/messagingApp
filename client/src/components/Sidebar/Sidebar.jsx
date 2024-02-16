@@ -2,12 +2,21 @@ import "./Sidebar.css";
 import defaultGroup from "../../assets/avatars/default/group.jpg";
 import defaultUser from "../../assets/avatars/default/user.jpg";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getUser } from "../../Utilities";
 
 export default function Sidebar() {
+  const [user, setUser] = useState();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    (async () => {
+      setUser(await getUser());
+    })();
+  }, []);
+
   return (
-    <aside>
+    <aside className="mainSidebar">
       <section>
         <div>
           <h1>
@@ -58,12 +67,12 @@ export default function Sidebar() {
       <section className="userInfo">
         <li className="chat">
           <div className="img">
-            <img src={defaultUser} alt="Kweebac's profile picture" />
-            <div className="dnd"></div>
+            <img src={defaultUser} alt={`${user && user.username}'s profile picture`} />
+            <div className={user && user.visibility}></div>
           </div>
           <div className="info">
-            <div>Kweebac</div>
-            <div>Codingdwadawdadawdawdwadwdawdadawdaw rn</div>
+            <div>{user && user.username}</div>
+            <div>{user && user.status}</div>
           </div>
           <button onClick={() => navigate("/settings")}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
