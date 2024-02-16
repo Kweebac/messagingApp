@@ -4,7 +4,12 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 
 const register = [
-  body("email").escape().trim(),
+  body("email")
+    .escape()
+    .trim()
+    .custom(async (email) => {
+      if (await User.findOne({ email })) throw new Error("Email already exists");
+    }),
   body("password")
     .escape()
     .trim()
@@ -33,7 +38,15 @@ const register = [
 
         res.json(true);
       } else {
-        res.json(errors.array());
+        const organizedErrors = {
+          email: [],
+          password: [],
+          username: [],
+        };
+
+        for (const error of errors.array()) organizedErrors[error.path].push(error.msg);
+
+        res.json(organizedErrors);
       }
     } catch (err) {
       next(err);
@@ -62,8 +75,18 @@ function loginSuccess(req, res) {
 }
 
 function loginFailure(req, res) {
-  const errors = req.session.messages;
-  res.json(errors[errors.length - 1]);
+  const error = req.session.messages[req.session.messages.length - 1];
+
+  const organizedErrors = {
+    email: [],
+    password: [],
+  };
+
+  if (error.toLowerCase().includes("email")) organizedErrors.email.push(error);
+  else if (error.toLowerCase().includes("password")) organizedErrors.password.push(error);
+
+  console.log(organizedErrors);
+  res.json(organizedErrors);
 }
 
 async function getUser(req, res) {

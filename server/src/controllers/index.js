@@ -12,7 +12,14 @@ const updateUserAccount = [
       if (!(await bcrypt.compare(currentPassword, req.user.password)))
         throw new Error("Current password does not match");
     }),
-  body("email").optional({ values: "falsy" }).escape().trim(),
+  body("email")
+    .optional({ values: "falsy" })
+    .escape()
+    .trim()
+    .custom(async (email, { req }) => {
+      if (email === req.user.email) return true;
+      if (await User.findOne({ email })) throw new Error("Email already exists");
+    }),
   body("password")
     .optional({ values: "falsy" })
     .escape()
@@ -36,7 +43,15 @@ const updateUserAccount = [
       await User.findByIdAndUpdate(req.user._id, update);
       res.json(false);
     } else {
-      res.json(errors.array());
+      const organizedErrors = {
+        currentPassword: [],
+        email: [],
+        password: [],
+      };
+
+      for (const error of errors.array()) organizedErrors[error.path].push(error.msg);
+
+      res.json(organizedErrors);
     }
   },
 ];
@@ -49,7 +64,6 @@ const updateUserProfile = [
     .withMessage("Username must be at least 3 characters")
     .custom(async (username, { req }) => {
       if (username === req.user.username) return true;
-
       if (await User.findOne({ username })) throw new Error("Username already exists");
     }),
   body("status").trim().isLength({ max: 40 }).withMessage("Must be less than 40 characters"),
@@ -61,7 +75,15 @@ const updateUserProfile = [
       await User.findByIdAndUpdate(req.user._id, req.body);
       res.json(false);
     } else {
-      res.json(errors.array());
+      const organizedErrors = {
+        username: [],
+        status: [],
+        about: [],
+      };
+
+      for (const error of errors.array()) organizedErrors[error.path].push(error.msg);
+
+      res.json(organizedErrors);
     }
   },
 ];

@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 
 export default function SettingsAccount() {
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState({
+    currentPassword: [],
+    email: [],
+    password: [],
+  });
   const [success, setSuccess] = useState(false);
   const currentPasswordInputRef = useRef();
   const navigate = useNavigate();
@@ -23,6 +27,11 @@ export default function SettingsAccount() {
 
     if (errors) setErrors(errors);
     else {
+      setErrors({
+        currentPassword: [],
+        email: [],
+        password: [],
+      });
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
@@ -71,6 +80,13 @@ export default function SettingsAccount() {
                 </div>
               </label>
             </div>
+            {errors.currentPassword.length > 0 && (
+              <ul className="errors">
+                {errors.currentPassword.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
             <div>
               <label className="title">
                 EMAIL
@@ -79,6 +95,13 @@ export default function SettingsAccount() {
                 </div>
               </label>
             </div>
+            {errors.email.length > 0 && (
+              <ul className="errors">
+                {errors.email.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
             <div>
               <label className="title">
                 PASSWORD
@@ -87,6 +110,13 @@ export default function SettingsAccount() {
                 </div>
               </label>
             </div>
+            {errors.password.length > 0 && (
+              <ul className="errors">
+                {errors.password.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
             <hr />
             <button className="delete" type="button" onClick={handleDeleteAccount}>
               Delete Account

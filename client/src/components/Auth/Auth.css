@@ -48,11 +48,6 @@
   margin-top: 1.5rem;
 }
 
-.auth .errors {
-  margin-top: 1.5rem;
-  color: rgb(255, 98, 98);
-}
-
 .auth .required > label > div:first-child {
   position: relative;
 

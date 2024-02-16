@@ -4,8 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { useIsNotAuthenticated } from "../../Utilities";
 
 export default function Auth() {
-  const [registerErrors, setRegisterErrors] = useState();
-  const [loginError, setLoginError] = useState();
+  const [registerErrors, setRegisterErrors] = useState({
+    email: [],
+    password: [],
+    username: [],
+  });
+  const [loginErrors, setLoginErrors] = useState({
+    email: [],
+    password: [],
+  });
   const loginEmailInputRef = useRef();
   const navigate = useNavigate();
   useIsNotAuthenticated();
@@ -20,6 +27,11 @@ export default function Auth() {
     res = await res.json();
 
     if (res === true) {
+      setRegisterErrors({
+        email: [],
+        password: [],
+        username: [],
+      });
       e.target[0].value = "";
       e.target[1].value = "";
       e.target[2].value = "";
@@ -38,7 +50,7 @@ export default function Auth() {
     res = await res.json();
 
     if (res === true) navigate("/");
-    else setLoginError(res);
+    else setLoginErrors(res);
   }
 
   return (
@@ -62,6 +74,13 @@ export default function Auth() {
                   </div>
                 </label>
               </div>
+              {registerErrors.email.length > 0 && (
+                <ul className="errors">
+                  {registerErrors.email.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
               <div className="required">
                 <label>
                   <div>
@@ -76,6 +95,13 @@ export default function Auth() {
                   </div>
                 </label>
               </div>
+              {registerErrors.password.length > 0 && (
+                <ul className="errors">
+                  {registerErrors.password.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
               <div className="required">
                 <label>
                   <div>
@@ -90,14 +116,14 @@ export default function Auth() {
                   </div>
                 </label>
               </div>
+              {registerErrors.username.length > 0 && (
+                <ul className="errors">
+                  {registerErrors.username.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
             </div>
-            {registerErrors && (
-              <ul className="errors">
-                {registerErrors.map((error) => (
-                  <li key={crypto.randomUUID()}>{error.msg}</li>
-                ))}
-              </ul>
-            )}
             <button>Register</button>
           </form>
         </section>
@@ -119,6 +145,13 @@ export default function Auth() {
                   </div>
                 </label>
               </div>
+              {loginErrors.email.length > 0 && (
+                <ul className="errors">
+                  {loginErrors.email.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
               <div className="required">
                 <label>
                   <div>
@@ -133,12 +166,14 @@ export default function Auth() {
                   </div>
                 </label>
               </div>
+              {loginErrors.password.length > 0 && (
+                <ul className="errors">
+                  {loginErrors.password.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
             </div>
-            {loginError && (
-              <ul className="errors">
-                <li>{loginError}</li>
-              </ul>
-            )}
             <button>Login</button>
           </form>
         </section>

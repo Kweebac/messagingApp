@@ -19,7 +19,7 @@
 
 # To-do
 
-- Add username errors, about me errors, login/register errors
+- Make inputs & errors into seperate component, show Breanna before and after
 - Implement avatar changing
 
 - Show remaining character limit for about me section

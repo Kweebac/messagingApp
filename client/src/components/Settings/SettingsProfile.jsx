@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 
 export default function SettingsProfile() {
   const [user, setUser] = useState();
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState({
+    username: [],
+    status: [],
+    about: [],
+  });
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   useIsAuthenticated();
@@ -29,6 +33,11 @@ export default function SettingsProfile() {
 
     if (errors) setErrors(errors);
     else {
+      setErrors({
+        username: [],
+        status: [],
+        about: [],
+      });
       setUser(await getUser());
       setSuccess(true);
       setTimeout(() => {
@@ -56,6 +65,13 @@ export default function SettingsProfile() {
                 </div>
               </label>
             </div>
+            {errors.username.length > 0 && (
+              <ul className="errors">
+                {errors.username.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
             {/* <div>
               <label className="title">
                 AVATAR
@@ -69,10 +85,22 @@ export default function SettingsProfile() {
               <label className="title">
                 STATUS
                 <div>
-                  <input type="text" name="status" defaultValue={user && user.status} />
+                  <input
+                    type="text"
+                    name="status"
+                    defaultValue={user && user.status}
+                    maxLength={40}
+                  />
                 </div>
               </label>
             </div>
+            {errors.status.length > 0 && (
+              <ul className="errors">
+                {errors.status.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
             <div>
               <label className="title">
                 ABOUT ME
@@ -86,6 +114,13 @@ export default function SettingsProfile() {
                 </div>
               </label>
             </div>
+            {errors.about.length > 0 && (
+              <ul className="errors">
+                {errors.about.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
             <hr />
             <div>
               <label className="title">

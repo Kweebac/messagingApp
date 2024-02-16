@@ -107,3 +107,7 @@ button.save:hover {
   transition: 0.2s ease;
   background-color: #1a6334;
 }
+ul.errors,
+ol.errors {
+  color: rgb(255, 98, 98);
+}
