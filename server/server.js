@@ -3,7 +3,7 @@ const session = require("express-session");
 const passport = require("passport");
 const app = express();
 const cors = require("cors");
-const indexRouter = require("./src/routes/index");
+const userRouter = require("./src/routes/user");
 const authRouter = require("./src/routes/auth");
 
 require("./mongooseConfig");
@@ -26,7 +26,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/api", indexRouter);
+app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 
 app.listen(3000);

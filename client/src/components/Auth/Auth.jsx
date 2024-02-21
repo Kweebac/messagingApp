@@ -7,7 +7,7 @@ export default function Auth() {
   const [registerErrors, setRegisterErrors] = useState({
     email: [],
     password: [],
-    username: [],
+    displayname: [],
   });
   const [loginErrors, setLoginErrors] = useState({
     email: [],
@@ -30,7 +30,7 @@ export default function Auth() {
       setRegisterErrors({
         email: [],
         password: [],
-        username: [],
+        displayname: [],
       });
       e.target[0].value = "";
       e.target[1].value = "";
@@ -112,13 +112,13 @@ export default function Auth() {
                     <span className="title">USERNAME</span>
                   </div>
                   <div>
-                    <input type="text" name="username" required minLength={3} />
+                    <input type="text" name="displayname" required minLength={3} />
                   </div>
                 </label>
               </div>
-              {registerErrors.username.length > 0 && (
+              {registerErrors.displayname.length > 0 && (
                 <ul className="errors">
-                  {registerErrors.username.map((error, index) => (
+                  {registerErrors.displayname.map((error, index) => (
                     <li key={index}>{error}</li>
                   ))}
                 </ul>

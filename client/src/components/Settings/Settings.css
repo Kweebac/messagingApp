@@ -102,3 +102,13 @@
 .settings > .options .saveChanges > span {
   color: #359356;
 }
+.settings > .options .aboutRemainingCharacters {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+}
+.settings > .options .statusRemainingCharacters {
+  position: absolute;
+  right: 0.35rem;
+  bottom: 0.35rem;
+}

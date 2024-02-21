@@ -1,18 +1,34 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Auth from "./components/Auth/Auth";
-import Index from "./components/Index/Index";
-import Settings from "./components/Settings/Settings";
+import SettingsSidebar from "./components/Settings/SettingsSidebar";
+import FriendsSidebar from "./components/Friends/FriendsSidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
+import SettingsAccount from "./components/Settings/SettingsAccount";
+import SettingsProfile from "./components/Settings/SettingsProfile";
+import FriendsOnline from "./components/Friends/FriendsOnline";
+import FriendsAll from "./components/Friends/FriendsAll";
+import FriendsPending from "./components/Friends/FriendsPending";
+import FriendsNew from "./components/Friends/FriendsNew";
 
 export default function App() {
   return (
     <>
       <Routes>
-        <Route index element={<Index />} />
+        <Route path="/" element={<Sidebar />}>
+          <Route path="friends" element={<FriendsSidebar />}>
+            <Route path="online" element={<FriendsOnline />} />
+            <Route path="all" element={<FriendsAll />} />
+            <Route path="pending" element={<FriendsPending />} />
+            <Route path="new" element={<FriendsNew />} />
+          </Route>
+        </Route>
         <Route path="/auth" element={<Auth />} />
-        <Route path="/settings" element={<Navigate to="/settings/profile" replace={true} />} />
-        <Route path="/settings/account" element={<Settings selected="account" />} />
-        <Route path="/settings/profile" element={<Settings selected="profile" />} />
+        <Route path="/settings" element={<SettingsSidebar />}>
+          <Route index element={<Navigate to="/settings/profile" replace={true} />} />
+          <Route path="account" element={<SettingsAccount />} />
+          <Route path="profile" element={<SettingsProfile />} />
+        </Route>
       </Routes>
     </>
   );

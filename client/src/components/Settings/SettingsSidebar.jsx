@@ -1,13 +1,13 @@
 import "./Settings.css";
 import { useIsAuthenticated } from "../../Utilities";
-import SettingsAccount from "./SettingsAccount";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
-import SettingsProfile from "./SettingsProfile";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-export default function Settings({ selected }) {
-  useIsAuthenticated();
+export default function SettingsSidebar() {
+  const [selected, setSelected] = useState();
   const navigate = useNavigate();
+  useIsAuthenticated();
 
   async function handleLogout(e) {
     e.preventDefault();
@@ -48,13 +48,11 @@ export default function Settings({ selected }) {
           </li>
         </ul>
       </aside>
-
-      {selected === "account" && <SettingsAccount />}
-      {selected === "profile" && <SettingsProfile />}
+      <Outlet context={[setSelected]} />
     </div>
   );
 }
 
-Settings.propTypes = {
+SettingsSidebar.propTypes = {
   selected: PropTypes.string,
 };

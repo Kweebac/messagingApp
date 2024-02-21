@@ -119,3 +119,38 @@
   fill: lightgray;
   cursor: pointer;
 }
+
+/* other options (friends etc.) */
+.mainSidebar .optionsList {
+  display: grid;
+  gap: 0.2rem;
+}
+.mainSidebar .optionsList > li {
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: lightgray;
+  cursor: pointer;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+.mainSidebar .optionsList > li:hover {
+  background-color: #36373d;
+}
+.mainSidebar .optionsList li.selected {
+  background-color: #4c4d53;
+  color: white;
+}
+
+.mainSidebar .optionsList svg {
+  width: 1.5rem;
+  fill: lightgray;
+}
+
+.mainSidebar .selected {
+  background-color: #4c4d53;
+  color: white;
+}

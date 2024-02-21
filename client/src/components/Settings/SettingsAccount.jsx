@@ -1,9 +1,11 @@
 import "./Settings.css";
-import { useIsAuthenticated } from "../../Utilities";
+import { useIsAuthenticated, useSetSelected } from "../../Utilities";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 
 export default function SettingsAccount() {
+  useSetSelected("account");
+
   const [errors, setErrors] = useState({
     currentPassword: [],
     email: [],
@@ -40,6 +42,14 @@ export default function SettingsAccount() {
   }
 
   async function handleDeleteAccount() {
+    if (!currentPasswordInputRef.current.value) {
+      return setErrors({
+        currentPassword: ["Does not match"],
+        email: [],
+        password: [],
+      });
+    }
+
     let errors = await fetch("http://localhost:3000/api/user", {
       method: "DELETE",
       headers: {

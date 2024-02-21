@@ -1,0 +1,59 @@
+.friends .options {
+  padding: 0.75rem;
+  padding-left: 1.5rem;
+  border-bottom: 1px solid #1e1f22;
+  width: calc(100vw - 14rem - 2.25rem);
+  color: lightgray;
+
+  display: grid;
+  justify-content: start;
+  align-items: center;
+  grid-auto-flow: column;
+  gap: 1.5rem;
+}
+.friends .options > li {
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.friends .options > li > button {
+  font-size: 0.95rem;
+  cursor: pointer;
+  background-color: #248046;
+  color: white;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  border: none;
+}
+.friends .options li:hover {
+  background-color: #36373d;
+}
+.friends .options li.selected {
+  background-color: #4c4d53;
+}
+.friends .options #addFriendButton:hover {
+  background-color: inherit;
+}
+.friends .options #addFriendButton > button.selected {
+  background-color: inherit;
+  color: #248046;
+}
+
+/* add friend page */
+.friends .addFriend {
+  padding: 1rem;
+}
+.friends .addFriend h1 {
+  font-size: 0.9rem;
+  margin-top: 0;
+}
+.friends .addFriend input {
+  border-radius: 8px;
+  width: calc(100% - 1.6rem);
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.friends .addFriend input.success {
+  border: 1px solid #248046;
+  width: calc(100% - 1.7rem);
+}

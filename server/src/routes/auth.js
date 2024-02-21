@@ -1,4 +1,3 @@
-const { checkIsAuthenticated } = require("../../passportConfig");
 const {
   register,
   login,
@@ -6,6 +5,7 @@ const {
   loginSuccess,
   loginFailure,
   getUser,
+  checkIsAuthenticated,
 } = require("../controllers/auth");
 const User = require("../models/User");
 

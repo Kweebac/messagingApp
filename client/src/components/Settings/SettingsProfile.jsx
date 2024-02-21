@@ -1,24 +1,33 @@
 import "./Settings.css";
-import { getUser, useIsAuthenticated } from "../../Utilities";
+import { useGetUser, useSetSelected } from "../../Utilities";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function SettingsProfile() {
-  const [user, setUser] = useState();
+  useSetSelected("profile");
+
+  const user = useGetUser();
+  console.log(user);
   const [errors, setErrors] = useState({
-    username: [],
+    displayname: [],
+    avatar: [],
     status: [],
     about: [],
   });
   const [success, setSuccess] = useState(false);
+  const [remainingCharacters, setRemainingCharacters] = useState({
+    status: 40,
+    about: 190,
+  });
   const navigate = useNavigate();
-  useIsAuthenticated();
 
   useEffect(() => {
-    (async () => {
-      setUser(await getUser());
-    })();
-  }, []);
+    if (user)
+      setRemainingCharacters({
+        status: 40 - user.status.length,
+        about: 190 - user.about.length,
+      });
+  }, [user]);
 
   async function handleFormSubmit(e) {
     e.preventDefault();
@@ -26,7 +35,7 @@ export default function SettingsProfile() {
 
     let errors = await fetch("http://localhost:3000/api/user/profile", {
       method: "PUT",
-      body: new URLSearchParams(new FormData(e.target)),
+      body: new FormData(e.target),
       credentials: "include",
     });
     errors = await errors.json();
@@ -34,11 +43,11 @@ export default function SettingsProfile() {
     if (errors) setErrors(errors);
     else {
       setErrors({
-        username: [],
+        displayname: [],
+        avatar: [],
         status: [],
         about: [],
       });
-      setUser(await getUser());
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
@@ -46,132 +55,141 @@ export default function SettingsProfile() {
     }
   }
 
-  return (
-    <div className="options">
-      <main>
-        <h1>Profile</h1>
-        <form onSubmit={(e) => handleFormSubmit(e)}>
-          <div className="inputs">
-            <div>
-              <label className="title">
-                USERNAME
-                <div>
-                  <input
-                    type="text"
-                    name="username"
-                    defaultValue={user && user.username}
-                    minLength={3}
-                  />
-                </div>
-              </label>
-            </div>
-            {errors.username.length > 0 && (
-              <ul className="errors">
-                {errors.username.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            )}
-            {/* <div>
-              <label className="title">
-                AVATAR
-                <div>
-                  <input type="file" accept=".png, .jpg, .jpeg" name="avatar" />
-                </div>
-              </label>
-            </div> */}
-            <hr />
-            <div>
-              <label className="title">
-                STATUS
-                <div>
-                  <input
-                    type="text"
-                    name="status"
-                    defaultValue={user && user.status}
-                    maxLength={40}
-                  />
-                </div>
-              </label>
-            </div>
-            {errors.status.length > 0 && (
-              <ul className="errors">
-                {errors.status.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            )}
-            <div>
-              <label className="title">
-                ABOUT ME
-                <div>
-                  <textarea
-                    name="about"
-                    rows="10"
-                    defaultValue={user && user.about}
-                    maxLength={190}
-                  ></textarea>
-                </div>
-              </label>
-            </div>
-            {errors.about.length > 0 && (
-              <ul className="errors">
-                {errors.about.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            )}
-            <hr />
-            <div>
-              <label className="title">
-                VISIBILITY
-                <div>
-                  <select name="visibility">
-                    <option
-                      selected={user && user.visibility === "online" ? true : false}
-                      value="online"
-                    >
-                      Online
-                    </option>
-                    <option
-                      selected={user && user.visibility === "offline" ? true : false}
-                      value="offline"
-                    >
-                      Offline
-                    </option>
-                    <option
-                      selected={user && user.visibility === "dnd" ? true : false}
-                      value="dnd"
-                    >
-                      Do Not Disturb
-                    </option>
-                  </select>
-                </div>
-              </label>
-            </div>
-            <hr />
-            <div className="saveChanges">
-              <button className="save">Save Changes</button>
-              {success ? (
-                <span>Success!</span>
-              ) : (
-                <span style={{ visibility: "hidden" }}>Success!</span>
+  if (user)
+    return (
+      <div className="options">
+        <main>
+          <h1>Profile</h1>
+          <form onSubmit={(e) => handleFormSubmit(e)} encType="multipart/form-data">
+            <div className="inputs">
+              <div>
+                <label className="title">
+                  USERNAME
+                  <div>
+                    <input
+                      type="text"
+                      name="displayname"
+                      defaultValue={user.displayname}
+                      minLength={3}
+                    />
+                  </div>
+                </label>
+              </div>
+              {errors.displayname.length > 0 && (
+                <ul className="errors">
+                  {errors.displayname.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
               )}
+              <div>
+                <label className="title">
+                  AVATAR
+                  <div>
+                    <input type="file" accept=".png, .jpg, .jpeg" name="avatar" />
+                  </div>
+                </label>
+              </div>
+              {errors.avatar.length > 0 && (
+                <ul className="errors">
+                  {errors.avatar.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
+              <hr />
+              <div>
+                <label className="title">
+                  STATUS
+                  <div style={{ position: "relative" }}>
+                    <input
+                      type="text"
+                      name="status"
+                      defaultValue={user.status}
+                      maxLength={40}
+                      onInput={(e) =>
+                        setRemainingCharacters({
+                          ...remainingCharacters,
+                          status: 40 - e.target.value.length,
+                        })
+                      }
+                    />
+                    <div className="statusRemainingCharacters">
+                      {remainingCharacters.status}
+                    </div>
+                  </div>
+                </label>
+              </div>
+              {errors.status.length > 0 && (
+                <ul className="errors">
+                  {errors.status.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
+              <div>
+                <label className="title">
+                  ABOUT ME
+                  <div style={{ position: "relative" }}>
+                    <textarea
+                      name="about"
+                      rows="10"
+                      defaultValue={user.about}
+                      maxLength={190}
+                      onInput={(e) =>
+                        setRemainingCharacters({
+                          ...remainingCharacters,
+                          about: 190 - e.target.value.length,
+                        })
+                      }
+                    ></textarea>
+                    <div className="aboutRemainingCharacters">{remainingCharacters.about}</div>
+                  </div>
+                </label>
+              </div>
+              {errors.about.length > 0 && (
+                <ul className="errors">
+                  {errors.about.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              )}
+              <hr />
+              <div>
+                <label className="title">
+                  VISIBILITY
+                  <div>
+                    <select name="visibility" defaultValue={user.visibility}>
+                      <option value="online">Online</option>
+                      <option value="offline">Offline</option>
+                      <option value="dnd">Do Not Disturb</option>
+                    </select>
+                  </div>
+                </label>
+              </div>
+              <hr />
+              <div className="saveChanges">
+                <button className="save">Save Changes</button>
+                {success ? (
+                  <span>Success!</span>
+                ) : (
+                  <span style={{ visibility: "hidden" }}>Success!</span>
+                )}
+              </div>
             </div>
+          </form>
+          <div className="close">
+            <svg
+              onClick={() => navigate("/")}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <title>Close</title>
+              <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+            </svg>
+            <div className="title">ESC</div>
           </div>
-        </form>
-        <div className="close">
-          <svg
-            onClick={() => navigate("/")}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <title>Close</title>
-            <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
-          </svg>
-          <div className="title">ESC</div>
-        </div>
-      </main>
-    </div>
-  );
+        </main>
+      </div>
+    );
 }

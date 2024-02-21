@@ -8,9 +8,9 @@ passport.use(
     try {
       const user = await User.findOne({ email }).exec();
 
-      if (user === null) done(null, false, { message: "No user with that email" });
+      if (user === null) done(null, false, { message: "Invalid email" });
       else if (!(await bcrypt.compare(password, user.password)))
-        done(null, false, { message: "Password did not match" });
+        done(null, false, { message: "Incorrect password" });
       else done(null, user);
     } catch (err) {
       done(err);
@@ -28,11 +28,3 @@ passport.deserializeUser(async (id, done) => {
     done(error);
   }
 });
-
-function checkIsAuthenticated(req, res) {
-  req.isAuthenticated() ? res.json(true) : res.json(false);
-}
-
-module.exports = {
-  checkIsAuthenticated,
-};

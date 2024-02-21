@@ -13,7 +13,7 @@ describe("Change user data", () => {
       _id: "5099803df3f4948bd2f98391",
       email: "alyssa@gmail.com",
       password: await bcrypt.hash("test1234", 10),
-      username: "A2yssa",
+      displayname: "A2yssa",
     });
   });
 
@@ -24,13 +24,13 @@ describe("Change user data", () => {
   test("Update user profile data", async () => {
     let user = await User.findById("5099803df3f4948bd2f98391");
 
-    expect(user.username).toMatchInlineSnapshot(`"A2yssa"`);
+    expect(user.displayname).toMatchInlineSnapshot(`"A2yssa"`);
     expect(user.about).toMatchInlineSnapshot(`undefined`);
     expect(user.status).toMatchInlineSnapshot(`undefined`);
     expect(user.visibility).toMatchInlineSnapshot(`"offline"`);
 
     await request(app).put("/api/user/profile").send({
-      username: "Kweebac",
+      displayname: "Kweebac",
       about: "I code.",
       status: "I code a lot.",
       visibility: "online",
@@ -38,7 +38,7 @@ describe("Change user data", () => {
 
     user = await User.findById("5099803df3f4948bd2f98391");
 
-    expect(user.username).toMatchInlineSnapshot(`"Kweebac"`);
+    expect(user.displayname).toMatchInlineSnapshot(`"Kweebac"`);
     expect(user.about).toMatchInlineSnapshot(`"I code."`);
     expect(user.status).toMatchInlineSnapshot(`"I code a lot."`);
     expect(user.visibility).toMatchInlineSnapshot(`"online"`);

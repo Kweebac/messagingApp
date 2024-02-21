@@ -2,38 +2,40 @@ const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const { getAvatar, checkAvatarExists } = require("../../s3");
 
 const register = [
   body("email")
     .escape()
     .trim()
     .custom(async (email) => {
-      if (await User.findOne({ email })) throw new Error("Email already exists");
+      if (await User.findOne({ email })) throw new Error("Already exists");
     }),
   body("password")
     .escape()
     .trim()
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters"),
-  body("username")
+    .withMessage("Must be more than 8 characters"),
+  body("displayname")
     .escape()
     .trim()
-    .isLength({ min: 3 })
-    .withMessage("Username must be at least 3 characters")
-    .custom(async (username) => {
-      if (await User.findOne({ username })) throw new Error("Username already exists");
+    .isLength({ min: 3, max: 15 })
+    .withMessage("Must be between 3 and 15 characters")
+    .custom(async (displayname) => {
+      if (await User.findOne({ username: displayname.toLowerCase() }))
+        throw new Error("Already exists");
     }),
 
   async (req, res, next) => {
     try {
       const errors = validationResult(req);
       if (errors.isEmpty()) {
-        const { email, password, username } = req.body;
+        const { email, password, displayname } = req.body;
 
         await User.create({
           email,
           password: await bcrypt.hash(password, 10),
-          username,
+          displayname,
         });
 
         res.json(true);
@@ -41,7 +43,7 @@ const register = [
         const organizedErrors = {
           email: [],
           password: [],
-          username: [],
+          displayname: [],
         };
 
         for (const error of errors.array()) organizedErrors[error.path].push(error.msg);
@@ -85,13 +87,35 @@ function loginFailure(req, res) {
   if (error.toLowerCase().includes("email")) organizedErrors.email.push(error);
   else if (error.toLowerCase().includes("password")) organizedErrors.password.push(error);
 
-  console.log(organizedErrors);
   res.json(organizedErrors);
 }
 
-async function getUser(req, res) {
-  res.json(req.user);
+function checkIsAuthenticated(req, res) {
+  req.isAuthenticated() ? res.json(true) : res.json(false);
 }
+
+const getUser = [
+  (req, res, next) => {
+    req.isAuthenticated() ? next() : res.status(401);
+  },
+  async (req, res) => {
+    let avatarExists = true;
+    try {
+      await checkAvatarExists(`users/${req.user._id}`);
+    } catch (error) {
+      avatarExists = false;
+    }
+
+    if (avatarExists) {
+      const avatar = await getAvatar(`users/${req.user._id}`);
+      const user = { ...req.user._doc, avatar };
+
+      res.json(user);
+    } else {
+      res.json(req.user);
+    }
+  },
+];
 
 module.exports = {
   register,
@@ -99,5 +123,6 @@ module.exports = {
   logout,
   loginSuccess,
   loginFailure,
+  checkIsAuthenticated,
   getUser,
 };

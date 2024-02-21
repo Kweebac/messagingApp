@@ -3,16 +3,28 @@ const mongoose = require("mongoose");
 module.exports = mongoose.model(
   "User",
   mongoose.Schema({
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    username: { type: String, required: true },
+    displayname: { type: String, required: true, unique: true },
+    username: {
+      type: String,
+      required: true,
+      default: function () {
+        return this.displayname.toLowerCase();
+      },
+      unique: true,
+    },
     visibility: { type: String, default: "offline", required: true },
-    avatar: { type: String, default: "temp", required: true },
-    status: String,
-    about: String,
+    status: { type: String, default: "" },
+    about: { type: String, default: "" },
     friends: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
-    friendRequests: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
-    chats: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chat" }],
-    groups: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chat" }],
+    friendRequests: {
+      outbound: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
+      inbound: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
+    },
+    chats: {
+      users: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chat" }],
+      groups: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chat" }],
+    },
   })
 );

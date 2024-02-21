@@ -1,16 +1,20 @@
-const { body, validationResult } = require("express-validator");
+const { body, validationResult, check } = require("express-validator");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+const { uploadAvatar, deleteAvatar } = require("../../s3");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const updateUserAccount = [
   body("currentPassword")
     .escape()
     .trim()
     .isLength({ min: 8 })
-    .withMessage("Current password must be at least 8 characters")
+    .withMessage("Must be more than 8 characters")
     .custom(async (currentPassword, { req }) => {
       if (!(await bcrypt.compare(currentPassword, req.user.password)))
-        throw new Error("Current password does not match");
+        throw new Error("Does not match");
     }),
   body("email")
     .optional({ values: "falsy" })
@@ -18,14 +22,14 @@ const updateUserAccount = [
     .trim()
     .custom(async (email, { req }) => {
       if (email === req.user.email) return true;
-      if (await User.findOne({ email })) throw new Error("Email already exists");
+      if (await User.findOne({ email })) throw new Error("Already exists");
     }),
   body("password")
     .optional({ values: "falsy" })
     .escape()
     .trim()
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters"),
+    .withMessage("Must be at more than 8 characters"),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -57,26 +61,39 @@ const updateUserAccount = [
 ];
 
 const updateUserProfile = [
-  body("username")
+  upload.single("avatar"),
+
+  body("displayname")
     .escape()
     .trim()
-    .isLength({ min: 3 })
-    .withMessage("Username must be at least 3 characters")
-    .custom(async (username, { req }) => {
-      if (username === req.user.username) return true;
-      if (await User.findOne({ username })) throw new Error("Username already exists");
+    .isLength({ min: 3, max: 15 })
+    .withMessage("Must be between 3 and 15 characters")
+    .custom(async (displayname, { req }) => {
+      if (displayname.toLowerCase() === req.user.username) return true;
+      if (await User.findOne({ username: displayname.toLowerCase() }))
+        throw new Error("Already exists");
     }),
   body("status").trim().isLength({ max: 40 }).withMessage("Must be less than 40 characters"),
   body("about").trim().isLength({ max: 190 }).withMessage("Must be less than 190 characters"),
 
   async (req, res) => {
     const errors = validationResult(req);
+    if (req.file && req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg")
+      errors.errors.push({
+        msg: "Incorrect file type",
+        path: "avatar",
+      });
+
     if (errors.isEmpty()) {
+      if (req.file)
+        await uploadAvatar(`users/${req.user._id}`, req.file.buffer, req.file.mimetype);
+
       await User.findByIdAndUpdate(req.user._id, req.body);
       res.json(false);
     } else {
       const organizedErrors = {
-        username: [],
+        displayname: [],
+        avatar: [],
         status: [],
         about: [],
       };
@@ -93,15 +110,16 @@ const deleteUser = [
     .escape()
     .trim()
     .isLength({ min: 8 })
-    .withMessage("Current password must be at least 8 characters")
+    .withMessage("Must be more than 8 characters")
     .custom(async (currentPassword, { req }) => {
       if (!(await bcrypt.compare(currentPassword, req.user.password)))
-        throw new Error("Current password does not match");
+        throw new Error("Does not match");
     }),
 
   async function deleteUser(req, res) {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
+      await deleteAvatar(`users/${req.user._id}`);
       await User.findByIdAndDelete(req.user._id);
 
       res.json(false);

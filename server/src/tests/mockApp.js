@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const indexRouter = require("../routes/index");
+const userRouter = require("../routes/user");
 const authRouter = require("../routes/auth");
 const User = require("../models/User");
 
@@ -17,7 +17,7 @@ app.use(async (req, res, next) => {
   req.user = await User.findById("5099803df3f4948bd2f98391");
   next();
 });
-app.use("/api", indexRouter);
+app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 
 module.exports = app;
