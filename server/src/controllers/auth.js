@@ -96,7 +96,7 @@ function checkIsAuthenticated(req, res) {
 
 const getUser = [
   (req, res, next) => {
-    req.isAuthenticated() ? next() : res.status(401);
+    req.isAuthenticated() ? next() : res.sendStatus(401);
   },
   async (req, res) => {
     let avatarExists = true;

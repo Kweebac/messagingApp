@@ -1,9 +1,10 @@
 import "./Friends.css";
 import { useState } from "react";
-import { useSetSelected } from "../../Utilities";
+import { useIsAuthenticated, useSetSelected } from "../../Utilities";
 import { Outlet, useNavigate } from "react-router-dom";
 
 export default function FriendsSidebar() {
+  useIsAuthenticated();
   useSetSelected("friends");
   const [selected, setSelected] = useState();
   const navigate = useNavigate();

@@ -15,9 +15,11 @@
 
 # To-do
 
+- Friends pending - have inbound and outbound headers
 - On friend accept, automatically create a chat with them
 
 - Change AddFriend component to AddChat and fix all of that
 
+- Make visibility work on load and on quit
 - Default avatars for groups
 - Make img alt text for friends and groups profile picture

@@ -17,6 +17,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Sidebar />}>
           <Route path="friends" element={<FriendsSidebar />}>
+            <Route index element={<Navigate to="/friends/online" replace={true} />} />
             <Route path="online" element={<FriendsOnline />} />
             <Route path="all" element={<FriendsAll />} />
             <Route path="pending" element={<FriendsPending />} />
