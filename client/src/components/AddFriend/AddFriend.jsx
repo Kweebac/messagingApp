@@ -14,7 +14,7 @@ export default function AddFriend({ setAddFriendForm }) {
     const formData = new FormData();
     formData.append("username", e.target[0].value.toLowerCase());
 
-    const res = await fetch("http://localhost:3000/api/user/friendRequest/send", {
+    const res = await fetch("http://localhost:3000/api/user/friendRequests/send", {
       method: "PUT",
       body: new URLSearchParams(formData),
       credentials: "include",

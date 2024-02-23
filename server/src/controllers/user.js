@@ -3,6 +3,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const { uploadAvatar, deleteAvatar } = require("../../s3");
+const { removeFriendRequest } = require("./friendRequests");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 

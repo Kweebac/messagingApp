@@ -3,7 +3,7 @@ const {
   sendFriendRequest,
   declineFriendRequest,
   acceptFriendRequest,
-} = require("../controllers/friendRequest");
+} = require("../controllers/friendRequests");
 const router = require("express").Router();
 
 router.get("/", getFriendRequests);

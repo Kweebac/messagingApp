@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSetSelected } from "../../Utilities";
 import "./Friends.css";
 import defaultUserAvatar from "../../assets/defaultAvatars/user.jpg";
@@ -9,38 +9,54 @@ export default function FriendsPending() {
   const [friendRequests, setFriendRequests] = useState();
   const navigate = useNavigate();
 
+  const refreshFriendRequests = useCallback(
+    async (abortController) => {
+      const res = await fetch("http://localhost:3000/api/user/friendRequests", {
+        credentials: "include",
+        signal: abortController ? abortController.signal : undefined,
+      });
+      if (res.status === 401) navigate("/auth");
+
+      const friendRequests = await res.json();
+      setFriendRequests(friendRequests);
+    },
+    [navigate]
+  );
+
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch("http://localhost:3000/api/user/friendRequest", {
-      credentials: "include",
-      signal: abortController.signal,
-    })
-      .then((res) => (res.status === 401 ? navigate("/auth") : res.json()))
-      .then((friendRequests) => setFriendRequests(friendRequests))
-      .catch((error) => console.error(error));
+    refreshFriendRequests(abortController);
 
     return () => {
       abortController.abort();
     };
-  }, [navigate]);
+  }, [refreshFriendRequests]);
 
   async function declineFriendRequest(type, username) {
     const formData = new FormData();
     formData.append("username", username);
 
-    await fetch(`http://localhost:3000/api/user/friendRequest/decline/${type}`, {
+    await fetch(`http://localhost:3000/api/user/friendRequests/decline/${type}`, {
       method: "PUT",
       body: new URLSearchParams(formData),
       credentials: "include",
     });
 
-    fetch("http://localhost:3000/api/user/friendRequest", {
+    refreshFriendRequests();
+  }
+
+  async function acceptFriendRequest(username) {
+    const formData = new FormData();
+    formData.append("username", username);
+
+    await fetch("http://localhost:3000/api/user/friendRequests/accept", {
+      method: "PUT",
+      body: new URLSearchParams(formData),
       credentials: "include",
-    })
-      .then((res) => (res.status === 401 ? navigate("/auth") : res.json()))
-      .then((friendRequests) => setFriendRequests(friendRequests))
-      .catch((error) => console.error(error));
+    });
+
+    refreshFriendRequests();
   }
 
   if (friendRequests)
@@ -62,6 +78,7 @@ export default function FriendsPending() {
               <div className="actions">
                 <div>
                   <svg
+                    onClick={() => acceptFriendRequest(friendRequest.username)}
                     className="accept"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"

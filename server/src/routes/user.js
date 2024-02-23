@@ -1,5 +1,6 @@
 const { updateUserAccount, updateUserProfile, deleteUser } = require("../controllers/user");
-const friendRequestRouter = require("./friendRequest");
+const friendRequestsRouter = require("./friendRequests");
+const friendsRouter = require("./friends");
 const router = require("express").Router();
 
 router.use((req, res, next) => {
@@ -9,6 +10,7 @@ router.use((req, res, next) => {
 router.put("/account", updateUserAccount);
 router.put("/profile", updateUserProfile);
 router.delete("/", deleteUser);
-router.use("/friendRequest", friendRequestRouter);
+router.use("/friendRequests", friendRequestsRouter);
+router.use("/friends", friendsRouter);
 
 module.exports = router;

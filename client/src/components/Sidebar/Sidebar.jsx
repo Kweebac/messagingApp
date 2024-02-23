@@ -2,7 +2,7 @@ import "./Sidebar.css";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useGetUser } from "../../Utilities";
 import { useState } from "react";
-import defaultUserAvatar from "../../assets/defaultAvatars/user.jpg";
+import UserAvatar from "../Avatar/UserAvatar";
 
 export default function Sidebar() {
   const user = useGetUser();
@@ -86,13 +86,7 @@ export default function Sidebar() {
 
           <section className="userInfo">
             <li className="chat">
-              <div className="img">
-                <img
-                  src={user.avatar ? user.avatar : defaultUserAvatar}
-                  alt={`${user.displayname}'s profile picture`}
-                />
-                <div className={user.visibility}></div>
-              </div>
+              <UserAvatar user={user} />
               <div className="info">
                 <div>{user.displayname}</div>
                 <div>{user.status}</div>

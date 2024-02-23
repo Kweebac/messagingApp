@@ -2,6 +2,14 @@ const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const { getAvatar, checkAvatarExists } = require("../../s3");
 
+async function removeFriendRequest(user, userIdToRemove, type) {
+  user.friendRequests[type] = user.friendRequests[type].filter(
+    (value) => !value.equals(userIdToRemove)
+  );
+
+  await user.save();
+}
+
 async function getFriendRequests(req, res) {
   let user = await User.findById(req.user._id, "friendRequests").populate(
     "friendRequests.incoming friendRequests.outgoing"
@@ -59,49 +67,42 @@ const sendFriendRequest = [
 const declineFriendRequest = {
   async incoming(req, res) {
     const { username } = req.body;
-
     const friendedUser = await User.findOne({ username });
 
-    const friendedUserFriendRequests = friendedUser.friendRequests;
-    friendedUserFriendRequests.outgoing = friendedUserFriendRequests.outgoing.filter(
-      (value) => !value.equals(req.user._id)
-    );
-    await friendedUser.save();
-
-    const friendRequests = req.user.friendRequests;
-    friendRequests.incoming = friendRequests.incoming.filter(
-      (value) => !value.equals(friendedUser._id)
-    );
-    await req.user.save();
+    await removeFriendRequest(req.user, friendedUser._id, "incoming");
+    await removeFriendRequest(friendedUser, req.user._id, "outgoing");
 
     res.end();
   },
   async outgoing(req, res) {
     const { username } = req.body;
-    let friendedUser = await User.findOne({ username });
+    const friendedUser = await User.findOne({ username });
 
-    const friendedUserFriendRequests = friendedUser.friendRequests;
-    friendedUserFriendRequests.incoming = friendedUserFriendRequests.incoming.filter(
-      (value) => !value.equals(req.user._id)
-    );
-    await friendedUser.save();
-
-    const friendRequests = req.user.friendRequests;
-    friendRequests.outgoing = friendRequests.outgoing.filter(
-      (value) => !value.equals(friendedUser._id)
-    );
-    await req.user.save();
+    await removeFriendRequest(req.user, friendedUser._id, "outgoing");
+    await removeFriendRequest(friendedUser, req.user._id, "incoming");
 
     res.end();
   },
 };
 
-function acceptFriendRequest(req, res) {
-  console.log(req.body);
+async function acceptFriendRequest(req, res) {
+  const { username } = req.body;
+  let friendedUser = await User.findOne({ username });
+
+  await removeFriendRequest(req.user, friendedUser._id, "incoming");
+  await removeFriendRequest(friendedUser, req.user._id, "outgoing");
+
+  friendedUser.friends.push(req.user._id);
+  await friendedUser.save();
+
+  req.user.friends.push(friendedUser._id);
+  await req.user.save();
+
   res.end();
 }
 
 module.exports = {
+  removeFriendRequest,
   getFriendRequests,
   sendFriendRequest,
   declineFriendRequest,

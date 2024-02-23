@@ -21,7 +21,7 @@ export default function FriendsNew() {
     const formData = new FormData();
     formData.append("username", input.value.toLowerCase());
 
-    const res = await fetch("http://localhost:3000/api/user/friendRequest/send", {
+    const res = await fetch("http://localhost:3000/api/user/friendRequests/send", {
       method: "PUT",
       body: new URLSearchParams(formData),
       credentials: "include",
@@ -43,6 +43,7 @@ export default function FriendsNew() {
         <form onSubmit={(e) => sendFriendRequest(e)}>
           <input
             className={success ? "success" : undefined}
+            autoFocus
             type="text"
             name="username"
             placeholder="You can add friends with their Discord username."
