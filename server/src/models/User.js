@@ -19,8 +19,8 @@ module.exports = mongoose.model(
     about: { type: String, default: "" },
     friends: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
     friendRequests: {
-      outbound: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
-      inbound: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
+      incoming: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
+      outgoing: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
     },
     chats: {
       users: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chat" }],

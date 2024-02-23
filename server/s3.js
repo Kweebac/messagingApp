@@ -49,12 +49,18 @@ async function deleteAvatar(Key) {
 }
 
 async function checkAvatarExists(Key) {
-  return s3.send(
-    new HeadObjectCommand({
-      Bucket,
-      Key,
-    })
-  );
+  try {
+    await s3.send(
+      new HeadObjectCommand({
+        Bucket,
+        Key,
+      })
+    );
+
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 module.exports = {

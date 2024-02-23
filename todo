@@ -11,15 +11,16 @@
 
 # Limitations
 
+- s3.js, getUser function, Sidebar.jsx
 - You may have realized that a REST API backend cannot handle real time updates. It is “request-response”, so the server can only respond to a request. If a user sends a message to another user, a REST API cannot automatically notify the recipient as the recipient will not have requested that data.
 
 # To-do
 
-- Friends pending - have inbound and outbound headers
 - On friend accept, automatically create a chat with them
 
 - Change AddFriend component to AddChat and fix all of that
 
+- Create a mongoose index for getting user since it's usually the same
 - Make visibility work on load and on quit
 - Default avatars for groups
 - Make img alt text for friends and groups profile picture

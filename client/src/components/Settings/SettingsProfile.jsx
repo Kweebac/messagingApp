@@ -7,7 +7,6 @@ export default function SettingsProfile() {
   useSetSelected("profile");
 
   const user = useGetUser();
-  console.log(user);
   const [errors, setErrors] = useState({
     displayname: [],
     avatar: [],

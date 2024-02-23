@@ -88,7 +88,10 @@ const updateUserProfile = [
       if (req.file)
         await uploadAvatar(`users/${req.user._id}`, req.file.buffer, req.file.mimetype);
 
-      await User.findByIdAndUpdate(req.user._id, req.body);
+      await User.findByIdAndUpdate(req.user._id, {
+        ...req.body,
+        username: req.body.displayname.toLowerCase(),
+      });
       res.json(false);
     } else {
       const organizedErrors = {

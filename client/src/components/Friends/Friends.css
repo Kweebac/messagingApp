@@ -57,3 +57,67 @@
   border: 1px solid #248046;
   width: calc(100% - 1.7rem);
 }
+
+/* friends online & all page  */
+.friends .filteredFriendsList {
+  padding: 1rem;
+}
+.friends .filteredFriendsList li {
+  padding: 0.5rem;
+  border-top: 1px solid #3f4147;
+  border-radius: 8px;
+  color: lightgray;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+
+  align-items: center;
+}
+.friends .filteredFriendsList li:hover {
+  background-color: #3a3c42;
+}
+.friends .filteredFriendsList li > .info {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+.friends .filteredFriendsList li > .info > div > p:first-child {
+  font-size: 1rem;
+}
+.friends .filteredFriendsList li > .info > div > p:last-child {
+  font-size: 0.65rem;
+}
+.friends .filteredFriendsList .actions {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 0.4rem;
+}
+.friends .filteredFriendsList .actions > div {
+  background-color: #2b2d31;
+  border-radius: 50px;
+  padding: 0.3rem;
+
+  display: grid;
+}
+.friends .filteredFriendsList li:hover .actions > div {
+  background-color: #1e1f22;
+}
+.friends .filteredFriendsList img {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50px;
+}
+.friends .filteredFriendsList svg {
+  width: 1.2rem;
+  fill: lightgray;
+  cursor: pointer;
+}
+.friends .filteredFriendsList svg.accept:hover {
+  fill: #248046;
+}
+.friends .filteredFriendsList svg.decline:hover {
+  fill: #ff5353;
+}

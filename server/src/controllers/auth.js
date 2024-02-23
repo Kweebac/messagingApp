@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const { getAvatar, checkAvatarExists } = require("../../s3");
+const { getAvatar, checkAvatarExists, uploadAvatar } = require("../../s3");
 
 const register = [
   body("email")
@@ -99,21 +99,14 @@ const getUser = [
     req.isAuthenticated() ? next() : res.sendStatus(401);
   },
   async (req, res) => {
-    let avatarExists = true;
-    try {
-      await checkAvatarExists(`users/${req.user._id}`);
-    } catch (error) {
-      avatarExists = false;
-    }
+    const avatarExists = await checkAvatarExists(`users/${req.user._id}`);
 
     if (avatarExists) {
       const avatar = await getAvatar(`users/${req.user._id}`);
       const user = { ...req.user._doc, avatar };
 
       res.json(user);
-    } else {
-      res.json(req.user);
-    }
+    } else res.json(req.user);
   },
 ];
 
