@@ -48,7 +48,7 @@ export default function SettingsSidebar() {
           </li>
         </ul>
       </aside>
-      <Outlet context={[setSelected]} />
+      <Outlet context={{ setSelected }} />
     </div>
   );
 }

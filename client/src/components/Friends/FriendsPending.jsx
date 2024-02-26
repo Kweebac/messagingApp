@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useSetSelected } from "../../Utilities";
 import "./Friends.css";
 import defaultUserAvatar from "../../assets/defaultAvatars/user.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 export default function FriendsPending() {
   useSetSelected("pending");
+  const { setTotalFriendRequests } = useOutletContext();
   const [friendRequests, setFriendRequests] = useState();
   const navigate = useNavigate();
 
@@ -56,7 +57,18 @@ export default function FriendsPending() {
       credentials: "include",
     });
 
+    setTotalFriendRequests(0);
     refreshFriendRequests();
+
+    // console.log("hi");
+    // const res = await fetch("http://localhost:3000/api/user/friendRequests", {
+    //   credentials: "include",
+    // });
+    // if (res.status === 401) navigate("/auth");
+
+    // const friendRequests = await res.json();
+    // console.log(friendRequests.incoming.length);
+    // setTotalFriendRequests(friendRequests.incoming.length);
   }
 
   if (friendRequests)

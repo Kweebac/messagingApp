@@ -100,7 +100,7 @@ export default function Sidebar() {
             </li>
           </section>
         </aside>
-        <Outlet context={[setSelected]} />
+        <Outlet context={{ setSelected }} />
       </>
     );
 }

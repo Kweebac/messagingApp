@@ -80,7 +80,7 @@ export function useGetUser() {
 }
 
 export function useSetSelected(string) {
-  const [setSelected] = useOutletContext();
+  const { setSelected } = useOutletContext();
 
   useEffect(() => {
     setSelected(string);

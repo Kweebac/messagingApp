@@ -15,6 +15,21 @@
   padding: 0.1rem 0.3rem;
   border-radius: 4px;
   cursor: pointer;
+
+  display: grid;
+  grid-auto-flow: column;
+  gap: 0.3rem;
+  align-items: center;
+}
+.friends .totalFriendRequests {
+  background-color: #f23f42;
+  border-radius: 50px;
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: 0.7rem;
+
+  display: grid;
+  place-items: center;
 }
 .friends .options > li > button {
   font-size: 0.95rem;
@@ -71,7 +86,6 @@
   display: grid;
   grid-auto-flow: column;
   justify-content: space-between;
-
   align-items: center;
 }
 .friends .filteredFriendsList li:hover {
