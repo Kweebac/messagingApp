@@ -144,7 +144,7 @@ export default function SettingsAccount() {
         </form>
         <div className="close">
           <svg
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >

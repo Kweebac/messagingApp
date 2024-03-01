@@ -1,3 +1,4 @@
+const { body, ExpressValidator, validationResult } = require("express-validator");
 const { getAvatar, checkAvatarExists } = require("../../s3");
 const DM = require("../models/DM");
 const User = require("../models/User");
@@ -63,23 +64,54 @@ async function getChat(req, res) {
   res.json(chat);
 }
 
-async function addMessage(req, res) {
-  const { message, chatId } = req.body;
+async function reorderChats(req, res) {
+  const { username } = req.params;
+  const otherUser = await User.findOne({ username });
 
-  const chat = await DM.findById(chatId);
-  chat.messages.push({
-    body: message,
-    user: req.user._id,
-  });
+  const userChats = req.user.chats.users;
 
-  await chat.save();
+  let index;
+  for (let i = 0; i < userChats.length; i++) {
+    if (userChats[i].friend.equals(otherUser._id)) index = i;
+  }
+
+  userChats.unshift(userChats.splice(index, 1)[0]);
+  await req.user.save();
 
   res.end();
 }
+
+const addMessage = [
+  body("message").isLength({ max: 2000 }),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+      const { message, chatId } = req.body;
+
+      const chat = await DM.findById(chatId);
+      chat.messages.push({
+        body: message,
+        user: req.user._id,
+      });
+
+      await chat.save();
+    }
+
+    res.end();
+  },
+];
+
+const editMessage = [];
+
+async function deleteMessage(req, res) {}
 
 module.exports = {
   getVisibleChats,
   changeVisibleStatus,
   getChat,
+  reorderChats,
   addMessage,
+  editMessage,
+  deleteMessage,
 };

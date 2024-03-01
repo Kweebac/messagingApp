@@ -49,12 +49,22 @@
 /* input */
 .chatDM form {
   padding: 1rem;
+  position: relative;
 }
 .chatDM input {
   background-color: #383a40;
   padding: 0.6rem;
-  width: calc(100% - 1.5rem);
+  width: calc(100% - 3.5rem);
   border-radius: 6px;
+  padding-right: 3rem;
+}
+.chatDM .inputRemChars {
+  color: white;
+  position: absolute;
+  font-size: 0.75rem;
+
+  right: 1.8rem;
+  top: 1.63rem;
 }
 
 /* aside */
@@ -91,4 +101,47 @@
 .chatDM aside .avatarImage > div {
   width: 0.9rem;
   height: 0.9rem;
+  border: 4.5px solid #2b2d31;
+}
+
+/* message actions */
+.chatDM .messages .message {
+  position: relative;
+}
+.chatDM .message .messageActions {
+  visibility: hidden;
+  position: absolute;
+  right: 1.5rem;
+  top: -1rem;
+
+  display: grid;
+  grid-auto-flow: column;
+}
+.chatDM .message:hover .messageActions {
+  visibility: visible;
+
+  border: 1px solid #232428;
+  background-color: #2b2d31;
+}
+
+.chatDM .messageActions .messageAction {
+  padding: 0.1rem;
+  width: 1.3rem;
+  height: 1.3rem;
+
+  display: grid;
+  place-content: center;
+}
+.chatDM .messageActions .messageAction:hover {
+  background-color: #313338;
+}
+.chatDM .messageActions .messageAction > svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.chatDM .messageActions .delete {
+  fill: rgb(255, 64, 64);
+}
+.chatDM .messageActions .edit {
+  fill: lightgray;
 }

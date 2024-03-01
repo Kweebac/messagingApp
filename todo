@@ -13,7 +13,6 @@
 
 - Delete messages
 - Edit messages
-- Make recently typed in chats appear at the top
 <!-- read -->
 - Make all messages read on chat open (figure out read/unread with groups)
 - On message send, automatically mark as read by user
