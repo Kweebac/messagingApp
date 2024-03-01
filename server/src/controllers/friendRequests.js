@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const { getAvatar, checkAvatarExists } = require("../../s3");
+const DM = require("../models/DM");
 
 async function removeFriendRequest(user, userIdToRemove, type) {
   user.friendRequests[type] = user.friendRequests[type].filter(
@@ -86,17 +87,25 @@ const declineFriendRequest = {
 };
 
 async function acceptFriendRequest(req, res) {
-  const { username } = req.body;
-  let friendedUser = await User.findOne({ username });
+  const user = req.user;
+  let friendedUser = await User.findOne({ username: req.body.username });
 
-  await removeFriendRequest(req.user, friendedUser._id, "incoming");
-  await removeFriendRequest(friendedUser, req.user._id, "outgoing");
+  await removeFriendRequest(user, friendedUser._id, "incoming");
+  await removeFriendRequest(friendedUser, user._id, "outgoing");
 
-  friendedUser.friends.push(req.user._id);
+  friendedUser.friends.push(user._id);
+  user.friends.push(friendedUser._id);
+
+  const chat =
+    (await DM.findOne({ users: { $all: [friendedUser._id, user._id] } })) ||
+    (await DM.create({
+      users: [friendedUser._id, user._id],
+    }));
+  friendedUser.chats.users.push({ ref: chat._id, friend: req.user._id });
+  user.chats.users.push({ ref: chat._id, friend: friendedUser._id });
+
   await friendedUser.save();
-
-  req.user.friends.push(friendedUser._id);
-  await req.user.save();
+  await user.save();
 
   res.end();
 }

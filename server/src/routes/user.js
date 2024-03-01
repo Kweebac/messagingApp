@@ -6,7 +6,6 @@ const router = require("express").Router();
 router.use((req, res, next) => {
   req.isAuthenticated() ? next() : res.sendStatus(401);
 });
-
 router.put("/account", updateUserAccount);
 router.put("/profile", updateUserProfile);
 router.delete("/", deleteUser);

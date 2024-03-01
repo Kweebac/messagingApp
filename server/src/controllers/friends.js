@@ -1,4 +1,6 @@
 const { checkAvatarExists, getAvatar } = require("../../s3");
+const DM = require("../models/DM");
+const Group = require("../models/Group");
 const User = require("../models/User");
 
 async function getFriends(req, res) {
@@ -24,9 +26,16 @@ async function removeFriend(req, res) {
   const userToRemove = await User.findById(req.params.userId);
 
   user.friends = user.friends.filter((value) => !value.equals(userToRemove._id));
-  await user.save();
-
   userToRemove.friends = userToRemove.friends.filter((value) => !value.equals(user._id));
+
+  user.chats.users = user.chats.users.filter(
+    (value) => !value.friend.equals(userToRemove._id)
+  );
+  userToRemove.chats.users = userToRemove.chats.users.filter(
+    (value) => !value.friend.equals(user._id)
+  );
+
+  await user.save();
   await userToRemove.save();
 
   res.end();

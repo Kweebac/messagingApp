@@ -10,12 +10,14 @@ import FriendsOnline from "./components/Friends/FriendsOnline";
 import FriendsAll from "./components/Friends/FriendsAll";
 import FriendsPending from "./components/Friends/FriendsPending";
 import FriendsNew from "./components/Friends/FriendsNew";
+import Chat from "./components/Chat/Chat";
 
 export default function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Sidebar />}>
+          <Route path="chat/:username" element={<Chat />} />
           <Route path="friends" element={<FriendsSidebar />}>
             <Route index element={<Navigate to="/friends/online" replace={true} />} />
             <Route path="online" element={<FriendsOnline />} />

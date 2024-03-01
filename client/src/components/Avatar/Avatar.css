@@ -1,6 +1,7 @@
 .avatarImage {
   display: grid;
   position: relative;
+  width: max-content;
 }
 img,
 .avatarImage > img {

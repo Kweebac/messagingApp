@@ -12,17 +12,15 @@
 
   display: grid;
   grid-auto-flow: column;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
 }
-.mainSidebar button {
-  background-color: #248046;
-  color: white;
-  font-size: 0.65rem;
-  border: none;
-  border-radius: 3px;
+.mainSidebar .plusButton {
+  width: 0.9rem;
   cursor: pointer;
+  fill: lightgray;
+  padding-right: 0.5rem;
 }
 
 .mainSidebar > section {
@@ -34,6 +32,7 @@
 .mainSidebar .chats {
   display: grid;
   list-style: none;
+  gap: 0.2rem;
 }
 
 .mainSidebar .chat {
@@ -41,9 +40,13 @@
 
   display: grid;
   grid-auto-flow: column;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+}
+.mainSidebar .chat > div {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
 }
 .mainSidebar .chat:hover:not(.userInfo > li) {
   background-color: #36373d;
@@ -79,22 +82,22 @@
   background-color: #f13f43;
 }
 
-.mainSidebar .chat > .info {
+.mainSidebar .chat .info {
   color: lightgray;
+  margin-left: 0.5rem;
+  margin-right: 0.3rem;
 }
-.mainSidebar .chat > .info > div:first-child {
+.mainSidebar .chat .info > div:first-child {
   font-size: 0.9rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 9.5rem;
 }
-.mainSidebar .chat > .info > div:nth-child(2) {
+.mainSidebar .chat .info > div:nth-child(2) {
   font-size: 0.6rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 9.5rem;
 }
 
 .mainSidebar > .userInfo {
@@ -108,6 +111,9 @@
 .mainSidebar > .userInfo > li > button {
   background-color: inherit;
   padding: 0.15rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 
   display: grid;
 }
@@ -125,7 +131,7 @@
   display: grid;
   gap: 0.2rem;
 }
-.mainSidebar .optionsList > li {
+.mainSidebar .optionsList li {
   padding: 0.5rem;
   border-radius: 4px;
   color: lightgray;
@@ -135,10 +141,17 @@
   grid-auto-flow: column;
   justify-content: start;
   align-items: center;
-  gap: 1rem;
 }
-.mainSidebar .optionsList > li:hover {
+.mainSidebar .optionsList li p {
+  margin-left: 0.75rem;
+  margin-right: 0.3rem;
+}
+.mainSidebar .optionsList li:hover {
   background-color: #36373d;
+}
+.mainSidebar .chat:hover .info:not(.accountInfo),
+.mainSidebar .chat.selected .info {
+  color: white;
 }
 .mainSidebar .optionsList li.selected {
   background-color: #4c4d53;
@@ -152,5 +165,25 @@
 
 .mainSidebar .selected {
   background-color: #4c4d53;
+  border-radius: 8px;
+  color: white;
+}
+.mainSidebar .selected:hover {
+  background-color: #4c4d53 !important;
+}
+
+.DM .actions {
+  display: grid;
+}
+.DM .chat:hover .actions > svg {
+  margin-right: 0.2rem;
+  width: 0.9rem;
+  fill: lightgray;
+}
+.DM .chat .actions > svg:hover {
+  fill: white;
+}
+
+.mainSidebar .accountInfo > div:first-child {
   color: white;
 }

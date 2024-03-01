@@ -21,6 +21,8 @@ const register = [
     .trim()
     .isLength({ min: 3, max: 15 })
     .withMessage("Must be between 3 and 15 characters")
+    .isAlphanumeric()
+    .withMessage("Can only contain letters or numbers")
     .custom(async (displayname) => {
       if (await User.findOne({ username: displayname.toLowerCase() }))
         throw new Error("Already exists");

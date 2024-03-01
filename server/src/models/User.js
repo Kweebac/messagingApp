@@ -23,8 +23,20 @@ module.exports = mongoose.model(
       outgoing: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
     },
     chats: {
-      users: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chat" }],
-      groups: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chat" }],
+      users: [
+        {
+          ref: { type: mongoose.SchemaTypes.ObjectId, ref: "DM" },
+          friend: { type: mongoose.SchemaTypes.ObjectId, ref: "User" },
+          visible: { type: Boolean, default: false, required: true },
+          unread: { type: Number, default: 0, required: true },
+        },
+      ],
+      groups: [
+        {
+          ref: { type: mongoose.SchemaTypes.ObjectId, ref: "Group" },
+          unread: { type: Number, default: 0, required: true },
+        },
+      ],
     },
   })
 );

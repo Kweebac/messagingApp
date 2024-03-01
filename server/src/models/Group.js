@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 module.exports = mongoose.model(
-  "Chat",
+  "Group",
   mongoose.Schema({
     users: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User", required: true }],
     title: { type: String, default: "New group", required: true },

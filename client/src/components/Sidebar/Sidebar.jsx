@@ -1,15 +1,74 @@
 import "./Sidebar.css";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useGetUser } from "../../Utilities";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UserAvatar from "../Avatar/UserAvatar";
+// import Groups from "./Groups";
+import DMs from "./DMs";
 
 export default function Sidebar() {
   const user = useGetUser();
+  const [totalFriendRequests, setTotalFriendRequests] = useState();
   const [selected, setSelected] = useState();
+  const [visibleChats, setVisibleChats] = useState();
   const navigate = useNavigate();
 
-  if (user)
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    fetch("http://localhost:3000/api/chat/visible", {
+      credentials: "include",
+      signal: abortController.signal,
+    })
+      .then((res) => {
+        if (res.status === 401) navigate("/auth");
+        return res.json();
+      })
+      .then((res) => setVisibleChats(res))
+      .catch((error) => console.error(error));
+
+    return () => {
+      abortController.abort();
+    };
+  }, [navigate]);
+
+  const refreshVisibleChats = useCallback(() => {
+    fetch("http://localhost:3000/api/chat/visible", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status === 401) navigate("/auth");
+        return res.json();
+      })
+      .then((res) => setVisibleChats(res))
+      .catch((error) => console.error(error));
+  }, [navigate]);
+
+  const refreshTotalFriendRequests = useCallback(
+    async (abortController) => {
+      const res = await fetch("http://localhost:3000/api/user/friendRequests", {
+        credentials: "include",
+        signal: abortController ? abortController.signal : undefined,
+      });
+      if (res.status === 401) navigate("/auth");
+
+      const friendRequests = await res.json();
+      setTotalFriendRequests(friendRequests.incoming.length);
+    },
+    [navigate, setTotalFriendRequests]
+  );
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    refreshTotalFriendRequests(abortController);
+
+    return () => {
+      abortController.abort();
+    };
+  }, [refreshTotalFriendRequests]);
+
+  if (user && visibleChats)
     return (
       <>
         <aside className="mainSidebar">
@@ -24,72 +83,34 @@ export default function Sidebar() {
                   <path d="M1.5,4V5.5C1.5,9.65 3.71,13.28 7,15.3V20H22V18C22,15.34 16.67,14 14,14C14,14 13.83,14 13.75,14C9,14 5,10 5,5.5V4M14,4A4,4 0 0,0 10,8A4,4 0 0,0 14,12A4,4 0 0,0 18,8A4,4 0 0,0 14,4Z" />
                 </svg>
                 <p>Friends</p>
+                {totalFriendRequests > 99 && <span className="notification">99+</span>}
+                {totalFriendRequests > 0 && totalFriendRequests < 100 && (
+                  <span
+                    className="notification"
+                    style={{ width: "1.1rem", height: "1.1rem", "font-size": "0.7rem" }}
+                  >
+                    {totalFriendRequests}
+                  </span>
+                )}
               </li>
             </ul>
 
-            <div>
-              <h1>
-                <span className="title">GROUP CHATS</span>
-                <button>NEW</button>
-              </h1>
-              <ul className="chats">
-                <li className="chat">
-                  <img
-                    src="https://img.freepik.com/free-photo/textured-background-white-tone_53876-128610.jpg"
-                    // alt={}
-                  />
-                  <div className="info">
-                    <div>Friend group</div>
-                    <div>6 members</div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h1>
-                <span className="title">DIRECT MESSAGES</span>
-                <button>NEW</button>
-              </h1>
-              <ul className="chats">
-                <li className="chat">
-                  <div className="img">
-                    <img
-                      src="https://img.freepik.com/free-photo/textured-background-white-tone_53876-128610.jpg"
-                      // alt={}
-                    />
-                    <div className="online"></div>
-                  </div>
-                  <div className="info">
-                    <div>Kweebac</div>
-                    <div>Coding rn</div>
-                  </div>
-                </li>
-                <li className="chat">
-                  <div className="img">
-                    <img
-                      src="https://img.freepik.com/free-photo/textured-background-white-tone_53876-128610.jpg"
-                      // alt={}
-                    />
-                    <div className="offline"></div>
-                  </div>
-                  <div className="info">
-                    <div>A1yssa</div>
-                    <div>
-                      I&apos;m editting editting editting editting editting editting ^-^
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+            {/* <Groups /> */}
+            <DMs
+              visibleChats={visibleChats}
+              refreshVisibleChats={refreshVisibleChats}
+              selected={selected}
+            />
           </section>
 
           <section className="userInfo">
             <li className="chat">
-              <UserAvatar user={user} />
-              <div className="info">
-                <div>{user.displayname}</div>
-                <div>{user.status}</div>
+              <div>
+                <UserAvatar user={user} />
+                <div className="info accountInfo">
+                  <div>{user.displayname}</div>
+                  <div>{user.status}</div>
+                </div>
               </div>
               <button onClick={() => navigate("/settings")}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -100,7 +121,16 @@ export default function Sidebar() {
             </li>
           </section>
         </aside>
-        <Outlet context={{ setSelected }} />
+
+        <Outlet
+          context={{
+            setSelected,
+            refreshVisibleChats,
+            totalFriendRequests,
+            setTotalFriendRequests,
+            refreshTotalFriendRequests,
+          }}
+        />
       </>
     );
 }

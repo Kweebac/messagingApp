@@ -6,7 +6,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 
 export default function FriendsPending() {
   useSetSelected("pending");
-  const { setTotalFriendRequests } = useOutletContext();
+  const { refreshTotalFriendRequests } = useOutletContext();
   const [friendRequests, setFriendRequests] = useState();
   const navigate = useNavigate();
 
@@ -45,6 +45,7 @@ export default function FriendsPending() {
     });
 
     refreshFriendRequests();
+    refreshTotalFriendRequests();
   }
 
   async function acceptFriendRequest(username) {
@@ -57,18 +58,8 @@ export default function FriendsPending() {
       credentials: "include",
     });
 
-    setTotalFriendRequests(0);
     refreshFriendRequests();
-
-    // console.log("hi");
-    // const res = await fetch("http://localhost:3000/api/user/friendRequests", {
-    //   credentials: "include",
-    // });
-    // if (res.status === 401) navigate("/auth");
-
-    // const friendRequests = await res.json();
-    // console.log(friendRequests.incoming.length);
-    // setTotalFriendRequests(friendRequests.incoming.length);
+    refreshTotalFriendRequests();
   }
 
   if (friendRequests)
@@ -88,9 +79,8 @@ export default function FriendsPending() {
                 </div>
               </div>
               <div className="actions">
-                <div>
+                <div onClick={() => acceptFriendRequest(friendRequest.username)}>
                   <svg
-                    onClick={() => acceptFriendRequest(friendRequest.username)}
                     className="accept"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -99,9 +89,8 @@ export default function FriendsPending() {
                     <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
                   </svg>
                 </div>
-                <div>
+                <div onClick={() => declineFriendRequest("incoming", friendRequest.username)}>
                   <svg
-                    onClick={() => declineFriendRequest("incoming", friendRequest.username)}
                     className="decline"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -126,9 +115,8 @@ export default function FriendsPending() {
                 </div>
               </div>
               <div className="actions">
-                <div>
+                <div onClick={() => declineFriendRequest("outgoing", friendRequest.username)}>
                   <svg
-                    onClick={() => declineFriendRequest("outgoing", friendRequest.username)}
                     className="decline"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"

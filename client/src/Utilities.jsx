@@ -86,3 +86,18 @@ export function useSetSelected(string) {
     setSelected(string);
   }, [setSelected, string]);
 }
+
+export async function changeVisibleStatus(otherUserId, visible, navigate) {
+  const res = await fetch("http://localhost:3000/api/chat/visible", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      otherUserId,
+      visible,
+    }),
+    credentials: "include",
+  });
+  if (res.status === 401) navigate("/auth");
+}

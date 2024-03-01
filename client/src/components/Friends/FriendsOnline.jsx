@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { useSetSelected } from "../../Utilities";
+import { changeVisibleStatus, useSetSelected } from "../../Utilities";
 import "./Friends.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import UserAvatar from "../Avatar/UserAvatar";
 
 export default function FriendsOnline() {
+  const { refreshVisibleChats } = useOutletContext();
   const [friends, setFriends] = useState();
   const navigate = useNavigate();
   useSetSelected("online");
@@ -63,9 +64,28 @@ export default function FriendsOnline() {
                 </div>
               </div>
               <div className="actions">
-                <div>
+                <div
+                  onClick={async () => {
+                    await changeVisibleStatus(friend._id, true, navigate);
+                    refreshVisibleChats();
+                  }}
+                >
                   <svg
-                    onClick={() => removeFriend(friend._id)}
+                    className="message"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <title>Message</title>
+                    <path d="M12,3C17.5,3 22,6.58 22,11C22,15.42 17.5,19 12,19C10.76,19 9.57,18.82 8.47,18.5C5.55,21 2,21 2,21C4.33,18.67 4.7,17.1 4.75,16.5C3.05,15.07 2,13.13 2,11C2,6.58 6.5,3 12,3Z" />
+                  </svg>
+                </div>
+                <div
+                  onClick={async () => {
+                    await removeFriend(friend._id);
+                    refreshVisibleChats();
+                  }}
+                >
+                  <svg
                     className="decline"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"

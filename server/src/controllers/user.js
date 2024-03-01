@@ -69,6 +69,8 @@ const updateUserProfile = [
     .trim()
     .isLength({ min: 3, max: 15 })
     .withMessage("Must be between 3 and 15 characters")
+    .isAlphanumeric()
+    .withMessage("Can only contain letters or numbers")
     .custom(async (displayname, { req }) => {
       if (displayname.toLowerCase() === req.user.username) return true;
       if (await User.findOne({ username: displayname.toLowerCase() }))
