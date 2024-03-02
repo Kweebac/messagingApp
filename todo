@@ -11,14 +11,9 @@
 
 # To-do
 
-- Delete messages
-- Edit messages
 <!-- read -->
 - Make all messages read on chat open (figure out read/unread with groups)
 - On message send, automatically mark as read by user
-<!-- groups -->
-- Default avatars for groups
-- Make img alt text groups profile picture
 <!-- not important -->
 - Create a mongoose index for getting user since it's usually the same
 - Make visibility work on load and on quit

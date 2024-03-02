@@ -66,6 +66,22 @@
   right: 1.8rem;
   bottom: 1.55rem;
 }
+.chatDM .inputRemCharsEdit {
+  color: white;
+  position: absolute;
+  font-size: 0.75rem;
+
+  right: 1rem;
+  bottom: 1.1rem;
+}
+.chatDM .inputRemCharsEditCondense {
+  color: white;
+  position: absolute;
+  font-size: 0.75rem;
+
+  right: -1.5rem;
+  bottom: 1.1rem;
+}
 
 /* aside */
 .chatDM h1 {
@@ -75,7 +91,7 @@
   margin: 0.6rem 0;
 }
 .chatDM aside {
-  width: 12vw;
+  width: 12rem;
   min-width: 10rem;
   padding: 0.75rem;
   background-color: #232428;
@@ -144,4 +160,10 @@
 }
 .chatDM .messageActions .edit {
   fill: lightgray;
+}
+
+/* edit message input */
+.chatDM .editMessageForm {
+  padding: 0.5rem 0;
+  width: calc(100vw - 31.9rem);
 }

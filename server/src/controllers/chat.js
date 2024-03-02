@@ -113,7 +113,25 @@ const addMessage = [
   },
 ];
 
-const editMessage = [];
+const editMessage = [
+  body("message").isLength({ max: 2000 }),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+      const { messageId } = req.params;
+      const { message, chatId } = req.body;
+
+      const chat = await DM.findById(chatId);
+      const index = chat.messages.findIndex((message) => message._id.equals(messageId));
+      chat.messages[index].body = message;
+
+      await chat.save();
+    }
+
+    res.end();
+  },
+];
 
 async function deleteMessage(req, res) {
   const { messageId } = req.params;

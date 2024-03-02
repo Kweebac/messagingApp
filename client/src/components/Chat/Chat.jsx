@@ -1,5 +1,5 @@
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { useSetSelected } from "../../Utilities";
+import { useGetUser, useSetSelected } from "../../Utilities";
 import { useCallback, useEffect, useRef, useState } from "react";
 import defaultUserAvatar from "../../assets/defaultAvatars/user.jpg";
 import "./Chat.css";
@@ -18,6 +18,8 @@ export default function Chat() {
   const previousMessage = useRef();
   previousMessage.current = undefined;
   const [remainingChars, setRemainingChars] = useState(2000);
+  const [remainingCharsEdit, setRemainingCharsEdit] = useState(2000);
+  const [edittedMessage, setEdittedMessage] = useState();
 
   const getChat = useCallback(
     (username, abortController) => {
@@ -37,6 +39,30 @@ export default function Chat() {
         });
     },
     [navigate]
+  );
+
+  const handleEditMessage = useCallback(
+    async (e, messageId) => {
+      e.preventDefault();
+      setEdittedMessage(undefined);
+      setRemainingCharsEdit(2000);
+
+      const res = await fetch(`http://localhost:3000/api/chat/message/${messageId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chatId: chat.ref._id,
+          message: e.target[0].value,
+        }),
+        credentials: "include",
+      });
+      if (res.status === 401) navigate("/auth");
+
+      getChat(username);
+    },
+    [navigate, getChat, username, chat]
   );
 
   useEffect(() => {
@@ -124,41 +150,103 @@ export default function Chat() {
                 prevMessage.user.displayname === message.user.displayname &&
                 new Date(+prevMessage.date).getMinutes() ===
                   new Date(+message.date).getMinutes();
+              const editMessage = edittedMessage && edittedMessage._id === message._id;
+              const sameUser = chat.friend.username !== message.user.username;
 
               if (condenseMessage)
-                return (
-                  <li key={message._id} className="message">
-                    <MessageActions
-                      message={message}
-                      chatId={chat.ref._id}
-                      username={username}
-                      getChat={getChat}
-                    />
-                    <p style={{ marginLeft: "2.35rem" }}>{message.body}</p>
-                  </li>
-                );
-              else
-                return (
-                  <li style={{ marginTop: "0.5rem" }} className="message" key={message._id}>
-                    <MessageActions
-                      message={message}
-                      chatId={chat.ref._id}
-                      username={username}
-                      getChat={getChat}
-                    />
-                    <img
-                      src={message.user.avatar || defaultUserAvatar}
-                      alt={`${message.user.username}'s profile picture`}
-                    />
-                    <div>
-                      <p className="info">
-                        <span>{message.user.displayname}</span>
-                        <span>{formattedDate}</span>
-                      </p>
-                      <p>{message.body}</p>
-                    </div>
-                  </li>
-                );
+                if (editMessage) {
+                  if (remainingCharsEdit === 2000)
+                    setRemainingCharsEdit(2000 - message.body.length);
+
+                  return (
+                    <li key={message._id} className="message">
+                      <form
+                        onSubmit={(e) => handleEditMessage(e, message._id)}
+                        className="editMessageForm"
+                      >
+                        <input
+                          onInput={(e) => setRemainingCharsEdit(2000 - e.target.value.length)}
+                          defaultValue={message.body}
+                          type="text"
+                          style={{ marginLeft: "2.35rem" }}
+                        />
+                        <div className="inputRemCharsEditCondense">{remainingCharsEdit}</div>
+                      </form>
+                    </li>
+                  );
+                } else
+                  return (
+                    <li key={message._id} className="message">
+                      {sameUser && (
+                        <MessageActions
+                          message={message}
+                          chatId={chat.ref._id}
+                          username={username}
+                          getChat={getChat}
+                          setEdittedMessage={setEdittedMessage}
+                        />
+                      )}
+                      <p style={{ marginLeft: "2.35rem" }}>{message.body}</p>
+                    </li>
+                  );
+              else {
+                if (editMessage) {
+                  if (remainingCharsEdit === 2000)
+                    setRemainingCharsEdit(2000 - message.body.length);
+
+                  return (
+                    <li style={{ marginTop: "0.5rem" }} className="message" key={message._id}>
+                      <img
+                        src={message.user.avatar || defaultUserAvatar}
+                        alt={`${message.user.username}'s profile picture`}
+                      />
+                      <div>
+                        <p className="info">
+                          <span>{message.user.displayname}</span>
+                          <span>{formattedDate}</span>
+                        </p>
+                        <form
+                          onSubmit={(e) => handleEditMessage(e, message._id)}
+                          className="editMessageForm"
+                        >
+                          <input
+                            onInput={(e) =>
+                              setRemainingCharsEdit(2000 - e.target.value.length)
+                            }
+                            defaultValue={message.body}
+                            type="text"
+                          />
+                          <div className="inputRemCharsEdit">{remainingCharsEdit}</div>
+                        </form>
+                      </div>
+                    </li>
+                  );
+                } else
+                  return (
+                    <li style={{ marginTop: "0.5rem" }} className="message" key={message._id}>
+                      {sameUser && (
+                        <MessageActions
+                          message={message}
+                          chatId={chat.ref._id}
+                          username={username}
+                          getChat={getChat}
+                          setEdittedMessage={setEdittedMessage}
+                        />
+                      )}
+                      <img
+                        src={message.user.avatar || defaultUserAvatar}
+                        alt={`${message.user.username}'s profile picture`}
+                      />
+                      <div>
+                        <p className="info">
+                          <span>{message.user.displayname}</span>
+                          <span>{formattedDate}</span>
+                        </p>
+                        <p>{message.body}</p>
+                      </div>
+                    </li>
+                  );
+              }
             })}
             <div ref={messagesEndRef}></div>
           </ul>
