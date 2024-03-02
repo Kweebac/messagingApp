@@ -1,5 +1,5 @@
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { useGetUser, useSetSelected } from "../../Utilities";
+import { useSetSelected } from "../../Utilities";
 import { useCallback, useEffect, useRef, useState } from "react";
 import defaultUserAvatar from "../../assets/defaultAvatars/user.jpg";
 import "./Chat.css";
