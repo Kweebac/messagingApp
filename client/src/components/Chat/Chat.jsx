@@ -1,27 +1,10 @@
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useSetSelected } from "../../Utilities";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import defaultUserAvatar from "../../assets/defaultAvatars/user.jpg";
 import "./Chat.css";
 import UserInfo from "./UserInfo";
 import MessageActions from "./MessageActions";
-
-function getChat(username, navigate, setChat, abortController) {
-  fetch(`http://localhost:3000/api/chat/${username}`, {
-    credentials: "include",
-    signal: abortController ? abortController.signal : undefined,
-  })
-    .then((res) => {
-      if (res.status === 401) navigate("/auth");
-      return res.json();
-    })
-    .then((res) => {
-      setChat(res);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
 
 export default function Chat() {
   const { refreshVisibleChats } = useOutletContext();
@@ -30,10 +13,40 @@ export default function Chat() {
   const { username } = useParams();
   useSetSelected(username);
   const [hasChat, setHasChat] = useState(false);
+  const inputRef = useRef();
   const messagesEndRef = useRef();
   const previousMessage = useRef();
   previousMessage.current = undefined;
   const [remainingChars, setRemainingChars] = useState(2000);
+
+  const getChat = useCallback(
+    (username, abortController) => {
+      fetch(`http://localhost:3000/api/chat/${username}`, {
+        credentials: "include",
+        signal: abortController ? abortController.signal : undefined,
+      })
+        .then((res) => {
+          if (res.status === 401) navigate("/auth");
+          return res.json();
+        })
+        .then((res) => {
+          setChat(res);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    [navigate]
+  );
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    getChat(username, abortController);
+
+    return () => {
+      abortController.abort();
+    };
+  }, [getChat, username]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -46,6 +59,7 @@ export default function Chat() {
       }).then((res) => {
         if (res.status === 401) navigate("/auth");
         refreshVisibleChats();
+        setHasChat(false);
       });
     }
 
@@ -55,17 +69,8 @@ export default function Chat() {
   }, [hasChat, username, refreshVisibleChats, navigate]);
 
   useEffect(() => {
-    const abortController = new AbortController();
-    getChat(username, navigate, setChat, abortController);
-    setHasChat(false);
-
-    return () => {
-      abortController.abort();
-    };
-  }, [navigate, username]);
-
-  useEffect(() => {
     messagesEndRef.current?.scrollIntoView();
+    inputRef.current?.focus();
   }, [chat]);
 
   async function submitMessage(e) {
@@ -90,7 +95,7 @@ export default function Chat() {
     });
     if (res.status === 401) navigate("/auth");
 
-    getChat(username, navigate, setChat);
+    getChat(username);
   }
 
   if (chat)
@@ -123,14 +128,24 @@ export default function Chat() {
               if (condenseMessage)
                 return (
                   <li key={message._id} className="message">
-                    <MessageActions message={message} />
+                    <MessageActions
+                      message={message}
+                      chatId={chat.ref._id}
+                      username={username}
+                      getChat={getChat}
+                    />
                     <p style={{ marginLeft: "2.35rem" }}>{message.body}</p>
                   </li>
                 );
               else
                 return (
                   <li style={{ marginTop: "0.5rem" }} className="message" key={message._id}>
-                    <MessageActions />
+                    <MessageActions
+                      message={message}
+                      chatId={chat.ref._id}
+                      username={username}
+                      getChat={getChat}
+                    />
                     <img
                       src={message.user.avatar || defaultUserAvatar}
                       alt={`${message.user.username}'s profile picture`}
@@ -149,6 +164,7 @@ export default function Chat() {
           </ul>
           <form onSubmit={async (e) => await submitMessage(e)}>
             <input
+              ref={inputRef}
               onInput={(e) => setRemainingChars(2000 - e.target.value.length)}
               type="text"
               name="message"

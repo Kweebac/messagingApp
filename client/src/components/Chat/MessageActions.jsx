@@ -1,9 +1,38 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-export default function MessageActions({ message }) {
-  async function editMessage() {}
+export default function MessageActions({ chatId, message, username, getChat }) {
+  const navigate = useNavigate();
 
-  async function deleteMessage() {}
+  async function editMessage() {
+    const res = await fetch(`http://localhost:3000/api/chat/message/${message._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chatId,
+      }),
+      credentials: "include",
+    });
+    if (res.status === 401) navigate("/auth");
+  }
+
+  async function deleteMessage() {
+    const res = await fetch(`http://localhost:3000/api/chat/message/${message._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chatId,
+      }),
+      credentials: "include",
+    });
+    if (res.status === 401) navigate("/auth");
+
+    getChat(username);
+  }
 
   return (
     <ul className="messageActions">
@@ -24,5 +53,8 @@ export default function MessageActions({ message }) {
 }
 
 MessageActions.propTypes = {
+  chatId: PropTypes.string,
   message: PropTypes.object,
+  username: PropTypes.string,
+  getChat: PropTypes.func,
 };

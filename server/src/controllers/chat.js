@@ -39,11 +39,13 @@ async function getChat(req, res) {
       { path: "friend", select: "displayname username status about visibility" },
       {
         path: "ref",
-        select: "messages",
-        populate: {
-          path: "messages.user",
-          select: "displayname",
-        },
+        populate: [
+          {
+            path: "messages.user",
+            select: "displayname username",
+          },
+          { path: "users", select: "username" },
+        ],
       },
     ],
   });
@@ -53,12 +55,21 @@ async function getChat(req, res) {
     (chat) => chat.friend.username === req.params.username
   )[0];
 
-  const avatarExists = await checkAvatarExists(`users/${chat.friend._id}`);
-  if (avatarExists) chat.friend.avatar = await getAvatar(`users/${chat.friend._id}`);
+  // profile pictures
+  const profilePictures = {};
+  for (const user of chat.ref.users) {
+    const avatarExists = await checkAvatarExists(`users/${user._id}`);
+    if (avatarExists) profilePictures[user.username] = await getAvatar(`users/${user._id}`);
+  }
+
+  if (profilePictures[chat.friend.username]) {
+    chat.friend.avatar = profilePictures[chat.friend.username];
+  }
 
   for (const messages of chat.ref.messages) {
-    const avatarExists = await checkAvatarExists(`users/${messages.user._id}`);
-    if (avatarExists) messages.user.avatar = await getAvatar(`users/${messages.user._id}`);
+    if (profilePictures[messages.user.username]) {
+      messages.user.avatar = profilePictures[messages.user.username];
+    }
   }
 
   res.json(chat);
@@ -104,7 +115,17 @@ const addMessage = [
 
 const editMessage = [];
 
-async function deleteMessage(req, res) {}
+async function deleteMessage(req, res) {
+  const { messageId } = req.params;
+  const { chatId } = req.body;
+
+  const chat = await DM.findById(chatId);
+  chat.messages = chat.messages.filter((message) => !message._id.equals(messageId));
+
+  await chat.save();
+
+  res.end();
+}
 
 module.exports = {
   getVisibleChats,
