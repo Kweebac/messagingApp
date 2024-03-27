@@ -38,5 +38,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "kweebac-messagingap-31"
-          entrypoint: "https://deno.land/std@0.217.0/http/file_server.ts"
+          entrypoint: "./server/server.js"
           root: "build"
