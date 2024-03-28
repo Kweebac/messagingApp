@@ -1,4 +1,4 @@
-import "./auth.css";
+import "./Auth.css";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useIsNotAuthenticated } from "../../Utilities";
