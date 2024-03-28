@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import dotenv from "dotenv";
-dotenv.config();
 
 export async function useIsAuthenticated() {
   const navigate = useNavigate();
