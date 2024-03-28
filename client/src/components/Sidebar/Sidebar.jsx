@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useGetUser } from "../../Utilities";
 import { useCallback, useEffect, useState } from "react";
 import UserAvatar from "../Avatar/UserAvatar";
-// import Groups from "./Groups";
 import DMs from "./DMs";
 
 export default function Sidebar() {
@@ -16,7 +15,7 @@ export default function Sidebar() {
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch("http://localhost:3000/api/chat/visible", {
+    fetch("https://kweebac-messagingapp-api.up.railway.app/api/chat/visible", {
       credentials: "include",
       signal: abortController.signal,
     })
@@ -33,7 +32,7 @@ export default function Sidebar() {
   }, [navigate]);
 
   const refreshVisibleChats = useCallback(() => {
-    fetch("http://localhost:3000/api/chat/visible", {
+    fetch("https://kweebac-messagingapp-api.up.railway.app/api/chat/visible", {
       credentials: "include",
     })
       .then((res) => {
@@ -46,10 +45,13 @@ export default function Sidebar() {
 
   const refreshTotalFriendRequests = useCallback(
     async (abortController) => {
-      const res = await fetch("http://localhost:3000/api/user/friendRequests", {
-        credentials: "include",
-        signal: abortController ? abortController.signal : undefined,
-      });
+      const res = await fetch(
+        "https://kweebac-messagingapp-api.up.railway.app/api/user/friendRequests",
+        {
+          credentials: "include",
+          signal: abortController ? abortController.signal : undefined,
+        }
+      );
       if (res.status === 401) navigate("/auth");
 
       const friendRequests = await res.json();

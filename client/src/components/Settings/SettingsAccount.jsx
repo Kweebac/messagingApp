@@ -20,11 +20,14 @@ export default function SettingsAccount() {
     e.preventDefault();
     setSuccess(false);
 
-    let errors = await fetch("http://localhost:3000/api/user/account", {
-      method: "PUT",
-      body: new URLSearchParams(new FormData(e.target)),
-      credentials: "include",
-    });
+    let errors = await fetch(
+      "https://kweebac-messagingapp-api.up.railway.app/api/user/account",
+      {
+        method: "PUT",
+        body: new URLSearchParams(new FormData(e.target)),
+        credentials: "include",
+      }
+    );
     errors = await errors.json();
 
     if (errors) setErrors(errors);
@@ -50,7 +53,7 @@ export default function SettingsAccount() {
       });
     }
 
-    let errors = await fetch("http://localhost:3000/api/user", {
+    let errors = await fetch("https://kweebac-messagingapp-api.up.railway.app/api/user", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

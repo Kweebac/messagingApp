@@ -13,7 +13,7 @@ export default function FriendsOnline() {
   const refreshFriends = useCallback(
     async (abortController) => {
       const res = await fetch(
-        "http://localhost:3000/api/user/friends?" +
+        "https://kweebac-messagingapp-api.up.railway.app/api/user/friends?" +
           new URLSearchParams({
             type: "online",
           }),
@@ -41,10 +41,13 @@ export default function FriendsOnline() {
   }, [refreshFriends]);
 
   async function removeFriend(userId) {
-    const res = await fetch(`http://localhost:3000/api/user/friends/${userId}/remove`, {
-      method: "DELETE",
-      credentials: "include",
-    });
+    const res = await fetch(
+      `https://kweebac-messagingapp-api.up.railway.app/api/user/friends/${userId}/remove`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    );
     if (res.status === 401) navigate("/auth");
 
     refreshFriends();

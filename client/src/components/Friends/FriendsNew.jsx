@@ -21,11 +21,14 @@ export default function FriendsNew() {
     const formData = new FormData();
     formData.append("username", input.value.toLowerCase());
 
-    const res = await fetch("http://localhost:3000/api/user/friendRequests/send", {
-      method: "PUT",
-      body: new URLSearchParams(formData),
-      credentials: "include",
-    });
+    const res = await fetch(
+      "https://kweebac-messagingapp-api.up.railway.app/api/user/friendRequests/send",
+      {
+        method: "PUT",
+        body: new URLSearchParams(formData),
+        credentials: "include",
+      }
+    );
     if (res.status === 401) navigate("/auth");
 
     const errors = await res.json();
