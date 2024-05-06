@@ -23,7 +23,7 @@ export default function Chat() {
 
   const getChat = useCallback(
     (username, abortController) => {
-      fetch(`http://localhost:3000/api/chat/${username}`, {
+      fetch(`https://kweebac-messagingapp-api.up.railway.app/api/chat/${username}`, {
         credentials: "include",
         signal: abortController ? abortController.signal : undefined,
       })
@@ -47,17 +47,20 @@ export default function Chat() {
       setEdittedMessage(undefined);
       setRemainingCharsEdit(2000);
 
-      const res = await fetch(`http://localhost:3000/api/chat/message/${messageId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chatId: chat.ref._id,
-          message: e.target[0].value,
-        }),
-        credentials: "include",
-      });
+      const res = await fetch(
+        `https://kweebac-messagingapp-api.up.railway.app/api/chat/message/${messageId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chatId: chat.ref._id,
+            message: e.target[0].value,
+          }),
+          credentials: "include",
+        }
+      );
       if (res.status === 401) navigate("/auth");
 
       getChat(username);
@@ -78,7 +81,7 @@ export default function Chat() {
     const abortController = new AbortController();
 
     if (hasChat) {
-      fetch(`http://localhost:3000/api/chat/${username}/reorder`, {
+      fetch(`https://kweebac-messagingapp-api.up.railway.app/api/chat/${username}/reorder`, {
         method: "PUT",
         signal: abortController.signal,
         credentials: "include",
@@ -108,17 +111,20 @@ export default function Chat() {
     e.target[0].value = "";
     setRemainingChars(2000);
 
-    const res = await fetch("http://localhost:3000/api/chat/message", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message,
-        chatId: chat.ref._id,
-      }),
-      credentials: "include",
-    });
+    const res = await fetch(
+      "https://kweebac-messagingapp-api.up.railway.app/api/chat/message",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message,
+          chatId: chat.ref._id,
+        }),
+        credentials: "include",
+      }
+    );
     if (res.status === 401) navigate("/auth");
 
     getChat(username);

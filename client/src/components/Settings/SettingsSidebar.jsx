@@ -12,7 +12,7 @@ export default function SettingsSidebar() {
   async function handleLogout(e) {
     e.preventDefault();
 
-    let res = await fetch("http://localhost:3000/api/auth/logout", {
+    let res = await fetch("https://kweebac-messagingapp-api.up.railway.app/api/auth/logout", {
       method: "POST",
       credentials: "include",
     });

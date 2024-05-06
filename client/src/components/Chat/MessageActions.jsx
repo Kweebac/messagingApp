@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import "./Chat.css";
 
 export default function MessageActions({
   chatId,
@@ -11,16 +12,19 @@ export default function MessageActions({
   const navigate = useNavigate();
 
   async function deleteMessage() {
-    const res = await fetch(`http://localhost:3000/api/chat/message/${message._id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        chatId,
-      }),
-      credentials: "include",
-    });
+    const res = await fetch(
+      `https://kweebac-messagingapp-api.up.railway.app/api/chat/message/${message._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chatId,
+        }),
+        credentials: "include",
+      }
+    );
     if (res.status === 401) navigate("/auth");
 
     getChat(username);

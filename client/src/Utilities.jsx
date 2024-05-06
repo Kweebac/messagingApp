@@ -7,7 +7,7 @@ export async function useIsAuthenticated() {
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch("http://localhost:3000/api/auth/isAuthenticated", {
+    fetch("https://kweebac-messagingapp-api.up.railway.app/api/auth/isAuthenticated", {
       credentials: "include",
       signal: abortController.signal,
     })
@@ -31,7 +31,7 @@ export async function useIsNotAuthenticated() {
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch("http://localhost:3000/api/auth/isAuthenticated", {
+    fetch("https://kweebac-messagingapp-api.up.railway.app/api/auth/isAuthenticated", {
       credentials: "include",
       signal: abortController.signal,
     })
@@ -56,7 +56,7 @@ export function useGetUser() {
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch("http://localhost:3000/api/auth/user", {
+    fetch("https://kweebac-messagingapp-api.up.railway.app/api/auth/user", {
       credentials: "include",
       signal: abortController.signal,
     })
@@ -88,7 +88,7 @@ export function useSetSelected(string) {
 }
 
 export async function changeVisibleStatus(otherUserId, visible, navigate) {
-  const res = await fetch("http://localhost:3000/api/chat/visible", {
+  const res = await fetch("https://kweebac-messagingapp-api.up.railway.app/api/chat/visible", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

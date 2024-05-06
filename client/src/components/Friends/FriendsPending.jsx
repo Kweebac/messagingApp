@@ -12,10 +12,13 @@ export default function FriendsPending() {
 
   const refreshFriendRequests = useCallback(
     async (abortController) => {
-      const res = await fetch("http://localhost:3000/api/user/friendRequests", {
-        credentials: "include",
-        signal: abortController ? abortController.signal : undefined,
-      });
+      const res = await fetch(
+        "https://kweebac-messagingapp-api.up.railway.app/api/user/friendRequests",
+        {
+          credentials: "include",
+          signal: abortController ? abortController.signal : undefined,
+        }
+      );
       if (res.status === 401) navigate("/auth");
 
       const friendRequests = await res.json();
@@ -38,11 +41,14 @@ export default function FriendsPending() {
     const formData = new FormData();
     formData.append("username", username);
 
-    await fetch(`http://localhost:3000/api/user/friendRequests/decline/${type}`, {
-      method: "PUT",
-      body: new URLSearchParams(formData),
-      credentials: "include",
-    });
+    await fetch(
+      `https://kweebac-messagingapp-api.up.railway.app/api/user/friendRequests/decline/${type}`,
+      {
+        method: "PUT",
+        body: new URLSearchParams(formData),
+        credentials: "include",
+      }
+    );
 
     refreshFriendRequests();
     refreshTotalFriendRequests();
@@ -52,11 +58,14 @@ export default function FriendsPending() {
     const formData = new FormData();
     formData.append("username", username);
 
-    await fetch("http://localhost:3000/api/user/friendRequests/accept", {
-      method: "PUT",
-      body: new URLSearchParams(formData),
-      credentials: "include",
-    });
+    await fetch(
+      "https://kweebac-messagingapp-api.up.railway.app/api/user/friendRequests/accept",
+      {
+        method: "PUT",
+        body: new URLSearchParams(formData),
+        credentials: "include",
+      }
+    );
 
     refreshFriendRequests();
     refreshTotalFriendRequests();

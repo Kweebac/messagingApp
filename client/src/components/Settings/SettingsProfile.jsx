@@ -32,11 +32,14 @@ export default function SettingsProfile() {
     e.preventDefault();
     setSuccess(false);
 
-    let errors = await fetch("http://localhost:3000/api/user/profile", {
-      method: "PUT",
-      body: new FormData(e.target),
-      credentials: "include",
-    });
+    let errors = await fetch(
+      "https://kweebac-messagingapp-api.up.railway.app/api/user/profile",
+      {
+        method: "PUT",
+        body: new FormData(e.target),
+        credentials: "include",
+      }
+    );
     errors = await errors.json();
 
     if (errors) setErrors(errors);

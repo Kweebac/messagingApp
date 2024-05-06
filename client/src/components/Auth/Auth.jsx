@@ -1,4 +1,4 @@
-import "./auth.css";
+import "./Auth.css";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useIsNotAuthenticated } from "../../Utilities";
@@ -20,10 +20,13 @@ export default function Auth() {
   async function handleRegister(e) {
     e.preventDefault();
 
-    let res = await fetch("http://localhost:3000/api/auth/register", {
-      method: "POST",
-      body: new URLSearchParams(new FormData(e.target)),
-    });
+    let res = await fetch(
+      "https://kweebac-messagingapp-api.up.railway.app/api/auth/register",
+      {
+        method: "POST",
+        body: new URLSearchParams(new FormData(e.target)),
+      }
+    );
     res = await res.json();
 
     if (res === true) {
@@ -42,7 +45,7 @@ export default function Auth() {
   async function handleLogin(e) {
     e.preventDefault();
 
-    let res = await fetch("http://localhost:3000/api/auth/login", {
+    let res = await fetch("https://kweebac-messagingapp-api.up.railway.app/api/auth/login", {
       method: "POST",
       body: new URLSearchParams(new FormData(e.target)),
       credentials: "include",
