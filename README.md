@@ -1,23 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-
 <a name="readme-top"></a>
-
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -26,13 +7,12 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <h3 align="center">Messaging</h3>
 
   <p align="center">
-    project_description
+    Messaging inspired by Discord
     <br />
     <br />
     <a href="https://kweebac-messagingapp.vercel.app">View website</a>
@@ -43,7 +23,6 @@
   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -60,30 +39,28 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
-
-<!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
 [![Website screenshot][product-screenshot]](https://kweebac-messagingapp.vercel.app)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `messagingApp`, `https://kweebac-messagingapp.vercel.app`, `Messaging`, `project_description`
+A messaging app with user authentication, friend requests, direct messaging, and profile customization. The UI is inspired by Discord.
+
+- Passport.js's local strategy for user authentication
+- MongoDB & Mongoose to store data related to friend requests, messages, and profile customization.
+- AWS S3 to store profile picture images
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
 - [![React][React]][React-url]
-- [![TypeScript][TypeScript]][TypeScript-url]
 - [![JavaScript][JavaScript]][JavaScript-url]
-- [![Tailwind][Tailwind]][Tailwind-url]
 - [![CSS][CSS]][CSS-url]
 - [![HTML][HTML]][HTML-url]
 - [![Node][Node]][Node-url]
@@ -92,8 +69,6 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 - [![AWS][AWS]][AWS-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- GETTING STARTED -->
 
 ## Getting Started
 
@@ -108,7 +83,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/Kweebac/portfolio.git
+   git clone https://github.com/Kweebac/messagingApp.git
    ```
 2. Install NPM packages
    ```sh
@@ -117,30 +92,16 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- USAGE EXAMPLES -->
-
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
+- [ ] Real-time updates using [Socket.IO](https://socket.io/)
+- [ ] Send images & videos
+- [ ] Automatic online/offline visibility changes
+- [ ] Group chats
 
 See the [open issues](https://github.com/Kweebac/messagingApp/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
 
 ## Contributing
 
@@ -156,27 +117,13 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- CONTACT -->
-
 ## Contact
 
 - [Email](mailto:06.amarshall@gmail.com)
 - [LinkedIn](https://www.linkedin.com/in/alfie-marshall-045bba268/)
+- [Portfolio](https://alfiemarshall.vercel.app/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-- []()
-- []()
-- []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/Kweebac/messagingApp.svg?style=for-the-badge
 [contributors-url]: https://github.com/Kweebac/messagingApp/graphs/contributors
@@ -190,15 +137,11 @@ If you have a suggestion that would make this better, please fork the repo and c
 [license-url]: https://github.com/Kweebac/messagingApp/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/alfie-marshall-045bba268/
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: https://i.imgur.com/lDGzyo9.png
 [React]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://react.dev/
-[TypeScript]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
-[TypeScript-url]: https://www.typescriptlang.org/
 [JavaScript]: https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E
 [JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
-[Tailwind]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
-[Tailwind-url]: https://tailwindcss.com/
 [CSS]: https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white
 [CSS-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
 [HTML]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
